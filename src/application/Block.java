@@ -20,8 +20,11 @@ public class Block extends StackPane {
 		this.getChildren().clear();
 		this.getChildren().add(n);
 	}
-	public Object getCurrentNode() {
+	public Node getCurrentNode() {
 		return this.currentNode;
+	}
+	public boolean isEmpty() {
+		return this.getChildren().size() == 0;
 	}
 	
 	public void clearNode() {

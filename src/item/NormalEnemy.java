@@ -7,10 +7,7 @@ public class NormalEnemy extends Enemy {
 	}
 	
 	public boolean takeDamage() {
-		this.setHealth(this.getHealth()-1);
-		if (this.getHealth() <= 0) {
-			return false;
-		}
-		return true;
+		this.setHealth(0);
+		return false;
 	}
 }
