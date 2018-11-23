@@ -16,9 +16,8 @@ public class Main extends Application {
 		root.setSpacing(10);
 		root.setPadding(new Insets(15));
 		
-		root.getChildren().add(new Label("Hello World"));
-		root.getChildren().add(new Label("by Ming and Pakim"));
-		
+		root.getChildren().add(new BlockPane());
+
 		// TODO Set up the stage
 		Scene scene = new Scene(root);
 		
