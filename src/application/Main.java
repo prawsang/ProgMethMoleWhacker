@@ -1,3 +1,4 @@
+package application;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -5,8 +6,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 
+import logic.*;
+
 
 public class Main extends Application {
+	
+	public static BlockPane blockPane;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -16,7 +21,11 @@ public class Main extends Application {
 		root.setSpacing(10);
 		root.setPadding(new Insets(15));
 		
-		root.getChildren().add(new BlockPane());
+		blockPane = new BlockPane();
+		root.getChildren().add(blockPane);
+		
+		GameManager gameManager = new GameManager();
+		gameManager.startGameLoop();
 
 		// TODO Set up the stage
 		Scene scene = new Scene(root);
@@ -30,5 +39,5 @@ public class Main extends Application {
 	public static void main(String [] args) {
 		launch(args);
 	}
-
+	
 }

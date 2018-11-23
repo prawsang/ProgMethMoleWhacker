@@ -1,3 +1,4 @@
+package application;
 import javafx.geometry.Pos;
 import javafx.scene.layout.TilePane;
 
@@ -12,10 +13,12 @@ public class BlockPane extends TilePane {
 		setVgap(5);
 		
 		for (int i = 0; i < 16; i++) {
-			Block block = new Block();
+			Block block = new Block(i);
+			block.setOnMouseClicked((e) -> {
+				block.clearNode();
+				GameManager.addAvailable(block.getIndex());
+			});
 			getChildren().add(block);
 		}
-		
-		((Block) getChildren().get(1)).setCurrentNode(new NormalEnemy());
 	}
 }
