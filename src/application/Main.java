@@ -6,15 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 
-import logic.*;
-
 
 public class Main extends Application {
 	
-	public static BlockPane blockPane;
-	public static int score;
-	
-	private static Label scoreLabel;
+	private BlockPane blockPane;
+	private Label scoreLabel;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -24,13 +20,14 @@ public class Main extends Application {
 		root.setSpacing(10);
 		root.setPadding(new Insets(15));
 		
-		scoreLabel = new Label("Score: " + score);
-		root.getChildren().add(scoreLabel);
 		
+		scoreLabel = new Label();
 		blockPane = new BlockPane();
-		root.getChildren().add(blockPane);
 		
-		GameManager gameManager = new GameManager();
+		GameManager gameManager = new GameManager(blockPane, scoreLabel);
+		
+		root.getChildren().addAll(scoreLabel, blockPane);
+		
 		gameManager.startGameLoop();
 
 		// TODO Set up the stage
@@ -44,15 +41,6 @@ public class Main extends Application {
 	
 	public static void main(String [] args) {
 		launch(args);
-	}
-	
-	// Score
-	public static int getScore() {
-		return score;
-	}
-	public static void addScore(int s) {
-		score += s;
-		scoreLabel.setText("Score: " + score);
 	}
 	
 }
