@@ -12,6 +12,9 @@ import logic.*;
 public class Main extends Application {
 	
 	public static BlockPane blockPane;
+	public static int score;
+	
+	private static Label scoreLabel;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -20,6 +23,9 @@ public class Main extends Application {
 		VBox root = new VBox();
 		root.setSpacing(10);
 		root.setPadding(new Insets(15));
+		
+		scoreLabel = new Label("Score: " + score);
+		root.getChildren().add(scoreLabel);
 		
 		blockPane = new BlockPane();
 		root.getChildren().add(blockPane);
@@ -38,6 +44,15 @@ public class Main extends Application {
 	
 	public static void main(String [] args) {
 		launch(args);
+	}
+	
+	// Score
+	public static int getScore() {
+		return score;
+	}
+	public static void addScore(int s) {
+		score += s;
+		scoreLabel.setText("Score: " + score);
 	}
 	
 }

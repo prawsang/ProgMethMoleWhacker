@@ -22,5 +22,5 @@ public abstract class Enemy extends StackPane {
 		return this.health;
 	}
 	
-	abstract boolean takeDamage();
+	public abstract boolean takeDamage();
 }

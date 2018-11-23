@@ -2,7 +2,7 @@ package application;
 import javafx.geometry.Pos;
 import javafx.scene.layout.TilePane;
 
-import item.NormalEnemy;
+import item.*;
 
 public class BlockPane extends TilePane {
 	public BlockPane() {
@@ -15,8 +15,12 @@ public class BlockPane extends TilePane {
 		for (int i = 0; i < 16; i++) {
 			Block block = new Block(i);
 			block.setOnMouseClicked((e) -> {
-				block.clearNode();
-				GameManager.addAvailable(block.getIndex());
+				if (block.getCurrentNode() == null) return;
+				if (!((Enemy)(block.getCurrentNode())).takeDamage()) {
+					block.clearNode();
+					GameManager.addAvailable(block.getIndex());
+					Main.addScore(100 * GameManager.getScoreMultiplier());
+				}
 			});
 			getChildren().add(block);
 		}
