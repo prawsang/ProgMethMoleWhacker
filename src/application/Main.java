@@ -11,6 +11,7 @@ public class Main extends Application {
 	
 	private BlockPane blockPane;
 	private Label scoreLabel;
+	private Label bombLabel;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -20,19 +21,20 @@ public class Main extends Application {
 		root.setSpacing(10);
 		root.setPadding(new Insets(15));
 		
-		
-		scoreLabel = new Label();
-		blockPane = new BlockPane();
-		
-		GameManager gameManager = new GameManager(blockPane, scoreLabel);
-		
-		root.getChildren().addAll(scoreLabel, blockPane);
-		
-		gameManager.startGameLoop();
-
-		// TODO Set up the stage
 		Scene scene = new Scene(root);
 		
+		scoreLabel = new Label();
+		bombLabel = new Label();
+		blockPane = new BlockPane();
+		
+		GameController gameController = new GameController(blockPane, scoreLabel, bombLabel);
+		
+		root.getChildren().addAll(scoreLabel, bombLabel, blockPane);
+		
+		gameController.setUpEnterEventHandler(scene);
+		gameController.startGameLoop();
+
+		// TODO Set up the stage
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Battle Monopoly");
 		primaryStage.setResizable(false);

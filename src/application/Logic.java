@@ -12,24 +12,13 @@ public class Logic {
 		this.score += score * scoreMultiplier;
 		return this.score;
 	}
-	 
+	public int getScore() {
+		return this.score;
+	}
 	public int getScoreMultiplier() {
 		return scoreMultiplier;
 	}
 	public void setScoreMultiplier(int multiplier) {
 		scoreMultiplier = multiplier;
-	}
-	
-	public void beginScoreMultiplier(int multiplier) {
-		Thread t = new Thread(() -> {
-			try {
-				this.setScoreMultiplier(multiplier);
-				Thread.sleep(10000);
-				this.setScoreMultiplier(1);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-		t.start();
 	}
 }

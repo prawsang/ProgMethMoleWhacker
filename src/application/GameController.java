@@ -7,22 +7,36 @@ import item.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class GameManager {
+public class GameController {
 
 	private BlockPane blockPane;
 	private Label scoreLabel;
+	private Label bombLabel;
 	private Logic logic;
 	
 	private int speed;
 	public static final int[] randomProb = {0,1,2,3,4,5,6,7,8};
 	private ArrayList<Integer> available;
 	
-	public GameManager(BlockPane blockPane, Label scoreLabel) {
+	//PowerUps
+	private int bombs;
+	private Bomb bomb;
+	private boolean fever;
+	
+	public GameController(BlockPane blockPane, Label scoreLabel, Label bombLabel) {
 		this.scoreLabel = scoreLabel;
+		this.bombLabel = bombLabel;
 		this.blockPane = blockPane;
+		
+		this.bombs = 0;
+		this.bomb = new Bomb(this);
+		this.fever = false;
 		
 		this.logic = new Logic();
 		this.speed = 1000;
@@ -34,6 +48,21 @@ public class GameManager {
 			Block block = new Block(i);
 			block.setOnMouseClicked(new BlockEventHandler(block));
 			this.blockPane.getChildren().add(block);
+		}
+	}
+	
+	public void setUpEnterEventHandler(Scene scene) {
+		scene.setOnKeyReleased(new EnterEventHandler());
+	}
+	
+	private class EnterEventHandler implements EventHandler<KeyEvent>{
+		public void handle(KeyEvent e) {
+			if (e.getCode().equals(KeyCode.ENTER)){
+				if (bombs > 0) {
+					bomb.usePowerUp();
+					bombLabel.setText("Bombs: " + getBombs());
+				}
+			}
 		}
 	}
 	
@@ -49,11 +78,25 @@ public class GameManager {
 			Node node = this.block.getCurrentNode();
 			if (node instanceof Enemy) {
 				Enemy e = (Enemy) node;
-				if (!e.takeDamage()) {
+				if (!e.takeDamage() || fever) {
 					block.clearNode();
 					available.add(block.getIndex());
 					scoreLabel.setText("Score: " + logic.addScore(100));
 				}
+			}
+			if (node instanceof PowerUp) {
+				if (node instanceof Collectible) {
+					Collectible c = (Collectible) node;
+					c.collect();
+					if (node instanceof Bomb) {
+						bombLabel.setText("Bombs: " + getBombs());
+					}
+				} else {
+					PowerUp p = (PowerUp) node;
+					p.usePowerUp();
+				}
+				block.clearNode();
+				available.add(block.getIndex());
 			}
 		}
 	}
@@ -127,11 +170,38 @@ public class GameManager {
 					if (random <= 6) {
 						block.setCurrentNode(new NormalEnemy());
 					} else {
-						block.setCurrentNode(new StrongEnemy());
+						int item = randomProb[new Random().nextInt(randomProb.length)];
+						if (item <= 5) block.setCurrentNode(new StrongEnemy());
+						else if (item == 6) block.setCurrentNode(new Bomb(this));
+						else if (item == 7 && !this.fever) block.setCurrentNode(new PowerUp("green") {
+							public void usePowerUp() {
+								startFever();
+							}
+						});
+						else if (item == 8) block.setCurrentNode(new PowerUp("orange") {
+							public void usePowerUp() {
+								killAdjacentEnemies(block.getIndex());
+							}
+						});
 					}
 				}
 			}
 		}
+	}
+	
+	// Power Up Storage
+	public void addBomb() {
+		if (this.bombs < 3) {
+			this.bombs++;
+		}
+	}
+	public void deleteBomb() {
+		if (this.bombs > 0) {
+			this.bombs--;
+		}
+	}
+	public int getBombs() {
+		return this.bombs;
 	}
 	
 	// Power Ups
@@ -139,13 +209,55 @@ public class GameManager {
 		for (Node node : this.blockPane.getChildren()) {
 			Block block = (Block) node;
 			if (!block.isEmpty()) {
+				if (block.getCurrentNode() instanceof Enemy) {
+					this.logic.addScore(100);
+				}
 				block.clearNode();
-				this.logic.addScore(100);
 			}
 		}
+		scoreLabel.setText("Score: " + this.logic.getScore());
 		available.clear();
 		for (int i = 0; i < 16; i++) {
 			available.add(i);
+		}
+	}
+	public void startFever() {
+		Thread t = new Thread(() -> {
+			try {
+				this.logic.setScoreMultiplier(3);
+				this.fever = true;
+				Thread.sleep(10000);
+				this.logic.setScoreMultiplier(1);
+				this.fever = false;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		t.start();
+	}
+	public void killAdjacentEnemies(int position) {
+		int[] kill;
+		
+		switch (position%4) {
+			case 0: kill = new int[]{position-4, position+1, position+4}; break;
+			case 1: kill = new int[]{position-4, position-1, position+1, position+4}; break;
+			case 2: kill = new int[]{position-4, position-1, position+1, position+4}; break;
+			case 3: kill = new int[]{position-4, position-1, position+4}; break;
+			default: kill = new int[] {};
+		}
+		
+		for (int k : kill) {
+			if (k >=0 && k<16) {
+				Block block =  (Block) this.blockPane.getChildren().get(k);
+				if (!block.isEmpty()) {
+					if (block.getCurrentNode() instanceof Enemy) {
+						block.clearNode();
+						this.logic.addScore(100);
+					} else {
+						block.clearNode();
+					}
+				}
+			}
 		}
 	}
 }

@@ -1,18 +1,12 @@
 package item;
 
-import javafx.scene.layout.StackPane;
 
-public abstract class Enemy extends StackPane {
-	protected int health;
-	protected String image;
+public abstract class Enemy extends Item {
+	private int health;
 
 	public Enemy(int health, String image) {
+		super(image);
 		this.health = health;
-		this.image = image;
-		
-		setPrefWidth(50);
-		setPrefHeight(50);
-		setStyle("-fx-background-color:" + image);
 	}
 	
 	public void setHealth(int health) {
