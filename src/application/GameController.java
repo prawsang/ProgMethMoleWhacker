@@ -20,6 +20,8 @@ public class GameController {
 	private Label bombLabel;
 	private Logic logic;
 	
+	private boolean lose;
+	
 	private int speed;
 	public static final int[] randomProb = {0,1,2,3,4,5,6,7,8};
 	private ArrayList<Integer> available;
@@ -42,7 +44,7 @@ public class GameController {
 		this.speed = 1000;
 		this.available = new ArrayList<Integer>();
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 12; i++) {
 			available.add(i);
 			
 			Block block = new Block(i);
@@ -51,6 +53,7 @@ public class GameController {
 		}
 	}
 	
+	// Press enter to use bomb (if available)
 	public void setUpEnterEventHandler(Scene scene) {
 		scene.setOnKeyReleased(new EnterEventHandler());
 	}
@@ -66,6 +69,7 @@ public class GameController {
 		}
 	}
 	
+	// Handle block clicks
 	private class BlockEventHandler implements EventHandler<MouseEvent>{
 		private Block block;
 		public BlockEventHandler(Block block) {
@@ -74,7 +78,7 @@ public class GameController {
 		
 		@Override
 		public void handle(MouseEvent arg0) {
-			if (block.isEmpty()) return;
+			if (block.isEmpty() || lose) return;
 			Node node = this.block.getCurrentNode();
 			if (node instanceof Enemy) {
 				Enemy e = (Enemy) node;
@@ -87,34 +91,40 @@ public class GameController {
 			if (node instanceof PowerUp) {
 				if (node instanceof Collectible) {
 					Collectible c = (Collectible) node;
-					c.collect();
 					if (node instanceof Bomb) {
-						bombLabel.setText("Bombs: " + getBombs());
+						if (getBombs() < 3) {
+							c.collect();
+							bombLabel.setText("Bombs: " + getBombs());
+						} else return;
 					}
 				} else {
 					PowerUp p = (PowerUp) node;
 					p.usePowerUp();
 				}
+				if (block.hasRunningTimer()) block.stopTimer();
 				block.clearNode();
 				available.add(block.getIndex());
 			}
 		}
 	}
 	
+	// Main game loop (random)
 	public void startGameLoop() {
 		Thread speedThread = new Thread(() -> {
 			while(true) {
 				try {
 					Thread.sleep(15000);
-					if (this.speed > 700) {
+					if (this.speed > 500) {
 						this.speed -= 50;
 					}
+					if (this.lose) break;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 		speedThread.start();
+		
 		
 		Thread t = new Thread(() ->  {
 			while(true) {
@@ -123,9 +133,10 @@ public class GameController {
 					Platform.runLater(() -> {
 						this.randomGame();
 					});
+					if (this.lose) break;
 					if (this.available.size() == 0) {
 						System.out.println("You Lose");
-						break;
+						this.lose = true;
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -135,8 +146,8 @@ public class GameController {
 		t.start();
 	}
 	
+	// Random Algorithm
 	private void randomGame() {
-		if (available.size() == 0) return;
 		int itemsAtOnce = 1;
 		int random = randomProb[new Random().nextInt(randomProb.length)];
 		
@@ -157,6 +168,8 @@ public class GameController {
 		}
 		
 		for (int i = 0; i < itemsAtOnce; i++) {
+			if (this.available.size() <= 0) return;
+			
 			int position = new Random().nextInt(this.available.size());
 			Block block = (Block) this.blockPane.getChildren().get(this.available.get(position));
 			
@@ -172,12 +185,13 @@ public class GameController {
 					} else {
 						int item = randomProb[new Random().nextInt(randomProb.length)];
 						if (item <= 5) block.setCurrentNode(new StrongEnemy());
-						else if (item == 6) block.setCurrentNode(new Bomb(this));
-						else if (item == 7 && !this.fever) block.setCurrentNode(new PowerUp("green") {
-							public void usePowerUp() {
-								startFever();
-							}
-						});
+						else if (item == 6) block.setCurrentNodeWithTimer(new Bomb(this),3000);
+						else if (item == 7 && !this.fever) 
+							block.setCurrentNodeWithTimer(new PowerUp("green") {
+								public void usePowerUp() {
+									startFever();
+								}
+							},3000);
 						else if (item == 8) block.setCurrentNode(new PowerUp("orange") {
 							public void usePowerUp() {
 								killAdjacentEnemies(block.getIndex());
@@ -217,7 +231,7 @@ public class GameController {
 		}
 		scoreLabel.setText("Score: " + this.logic.getScore());
 		available.clear();
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 12; i++) {
 			available.add(i);
 		}
 	}
@@ -238,16 +252,15 @@ public class GameController {
 	public void killAdjacentEnemies(int position) {
 		int[] kill;
 		
-		switch (position%4) {
-			case 0: kill = new int[]{position-4, position+1, position+4}; break;
-			case 1: kill = new int[]{position-4, position-1, position+1, position+4}; break;
-			case 2: kill = new int[]{position-4, position-1, position+1, position+4}; break;
-			case 3: kill = new int[]{position-4, position-1, position+4}; break;
+		switch (position%3) {
+			case 0: kill = new int[]{position-3, position+1, position+3}; break;
+			case 1: kill = new int[]{position-3, position-1, position+1, position+3}; break;
+			case 2: kill = new int[]{position-3, position-1, position+3}; break;
 			default: kill = new int[] {};
 		}
 		
 		for (int k : kill) {
-			if (k >=0 && k<16) {
+			if (k >=0 && k<12) {
 				Block block =  (Block) this.blockPane.getChildren().get(k);
 				if (!block.isEmpty()) {
 					if (block.getCurrentNode() instanceof Enemy) {
@@ -255,8 +268,10 @@ public class GameController {
 						this.logic.addScore(100);
 					} else {
 						block.clearNode();
+						if (block.hasRunningTimer()) block.stopTimer();
 					}
 				}
+				this.available.add(k);
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 package application;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
@@ -6,12 +7,13 @@ public class Block extends StackPane {
 	
 	private Node currentNode;
 	private final int index;
+	private Thread thread;
 	
 	public Block(int index) {
 		this.index = index;
 		
-		setPrefWidth(50);
-		setPrefHeight(50);
+		setPrefWidth(75);
+		setPrefHeight(75);
 		setStyle("-fx-background-color: #ddd");
 	}
 	
@@ -20,6 +22,32 @@ public class Block extends StackPane {
 		this.getChildren().clear();
 		this.getChildren().add(n);
 	}
+	public void setCurrentNodeWithTimer(Node n, int duration) {
+		this.thread = new Thread(() -> {
+			try {
+				Platform.runLater(()->{
+					this.currentNode = n;
+					this.getChildren().clear();
+					this.getChildren().add(n);
+				});
+				
+				Thread.sleep(duration);
+				Platform.runLater(()->{
+					this.clearNode();
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		this.thread.start();
+	}
+	public boolean hasRunningTimer() {
+		return this.thread != null;
+	}
+	public void stopTimer() {
+		if (this.thread != null) this.thread.interrupt();
+	}
+	
 	public Node getCurrentNode() {
 		return this.currentNode;
 	}

@@ -9,8 +9,8 @@ public class Item extends StackPane {
 	public Item(String image) {
 		this.image = image;
 		
-		setPrefWidth(50);
-		setPrefHeight(50);
+		setPrefWidth(75);
+		setPrefHeight(75);
 		setStyle("-fx-background-color:" + this.image);
 	}
 	
