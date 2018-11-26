@@ -23,8 +23,8 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(root);
 		
-		scoreLabel = new Label();
-		bombLabel = new Label();
+		scoreLabel = new Label("Score: 0");
+		bombLabel = new Label("Bombs: 0");
 		blockPane = new BlockPane();
 		
 		GameController gameController = new GameController(blockPane, scoreLabel, bombLabel);

@@ -18,10 +18,11 @@ public class GameController {
 	private BlockPane blockPane;
 	private Label scoreLabel;
 	private Label bombLabel;
-	private Logic logic;
+	private ScoreLogic logic;
 	
 	private boolean lose;
 	
+	// Random Algorithm
 	private int speed;
 	public static final int[] randomProb = {0,1,2,3,4,5,6,7,8};
 	private ArrayList<Integer> available;
@@ -40,10 +41,11 @@ public class GameController {
 		this.bomb = new Bomb(this);
 		this.fever = false;
 		
-		this.logic = new Logic();
+		this.logic = new ScoreLogic();
 		this.speed = 1000;
 		this.available = new ArrayList<Integer>();
 
+		// Add blocks to block pane
 		for (int i = 0; i < 12; i++) {
 			available.add(i);
 			
@@ -81,6 +83,7 @@ public class GameController {
 			if (block.isEmpty() || lose) return;
 			Node node = this.block.getCurrentNode();
 			if (node instanceof Enemy) {
+				// Take damage
 				Enemy e = (Enemy) node;
 				if (!e.takeDamage() || fever) {
 					block.clearNode();
@@ -89,6 +92,7 @@ public class GameController {
 				}
 			}
 			if (node instanceof PowerUp) {
+				// Collect or use power up
 				if (node instanceof Collectible) {
 					Collectible c = (Collectible) node;
 					if (node instanceof Bomb) {
@@ -187,12 +191,14 @@ public class GameController {
 						if (item <= 5) block.setCurrentNode(new StrongEnemy());
 						else if (item == 6) block.setCurrentNodeWithTimer(new Bomb(this),3000);
 						else if (item == 7 && !this.fever) 
+							// Fever
 							block.setCurrentNodeWithTimer(new PowerUp("green") {
 								public void usePowerUp() {
 									startFever();
 								}
 							},3000);
 						else if (item == 8) block.setCurrentNode(new PowerUp("orange") {
+							// Kill Adjacent Enemies
 							public void usePowerUp() {
 								killAdjacentEnemies(block.getIndex());
 							}

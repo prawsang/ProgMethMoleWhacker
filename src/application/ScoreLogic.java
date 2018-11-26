@@ -1,10 +1,10 @@
 package application;
 
-public class Logic {
+public class ScoreLogic {
 	private int score;
 	private int scoreMultiplier;
 	
-	public Logic() {
+	public ScoreLogic() {
 		scoreMultiplier = 1;
 	}
 	
