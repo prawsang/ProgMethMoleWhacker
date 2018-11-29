@@ -7,7 +7,7 @@ public class BlockPane extends TilePane {
 		setPrefRows(4);
 		setPrefColumns(3);
 		setTileAlignment(Pos.CENTER);
-		setHgap(5);
-		setVgap(5);
+		setHgap(3.5);
+		setVgap(3.5);
 	}
 }

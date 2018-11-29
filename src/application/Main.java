@@ -18,8 +18,8 @@ public class Main extends Application {
 		
 		// TODO Create a root container
 		VBox root = new VBox();
-		root.setSpacing(10);
-		root.setPadding(new Insets(15));
+		root.setSpacing(20);
+		root.setPadding(new Insets(0,40,0,40));
 		
 		Scene scene = new Scene(root);
 		
@@ -29,14 +29,14 @@ public class Main extends Application {
 		
 		GameController gameController = new GameController(blockPane, scoreLabel, bombLabel);
 		
-		root.getChildren().addAll(scoreLabel, bombLabel, blockPane);
+		root.getChildren().addAll(scoreLabel, blockPane, bombLabel);
 		
 		gameController.setUpEnterEventHandler(scene);
 		gameController.startGameLoop();
 
 		// TODO Set up the stage
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Battle Monopoly");
+		primaryStage.setTitle("Mole Whacker");
 		primaryStage.setResizable(false);
 		primaryStage.show();
 	}

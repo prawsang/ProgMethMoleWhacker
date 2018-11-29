@@ -12,8 +12,8 @@ public class Block extends StackPane {
 	public Block(int index) {
 		this.index = index;
 		
-		setPrefWidth(75);
-		setPrefHeight(75);
+		setPrefWidth(80);
+		setPrefHeight(80);
 		setStyle("-fx-background-color: #ddd");
 	}
 	
