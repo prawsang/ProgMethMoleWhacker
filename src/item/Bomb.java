@@ -1,13 +1,14 @@
 package item;
 
 import application.GameController;
+import application.Resources;
 
 public class Bomb extends PowerUp implements Collectible  {
 	
 	private GameController gameController;
 	
 	public Bomb(GameController gameController) {
-		super("yellow");
+		super(Resources.BOMB);
 		this.gameController = gameController;
 	}
 	

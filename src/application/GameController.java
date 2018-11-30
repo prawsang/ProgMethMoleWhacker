@@ -8,16 +8,19 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 public class GameController {
 
 	private BlockPane blockPane;
 	private Label scoreLabel;
-	private Label bombLabel;
+	private BombPane bombPane;
 	private ScoreLogic logic;
 	
 	private boolean lose;
@@ -31,11 +34,21 @@ public class GameController {
 	private int bombs;
 	private Bomb bomb;
 	private boolean fever;
+	private GraphicsContext mainGC;
 	
-	public GameController(BlockPane blockPane, Label scoreLabel, Label bombLabel) {
+	public GameController(
+			BlockPane blockPane, 
+			Label scoreLabel, 
+			BombPane bombPane, 
+			GraphicsContext mainGC
+	) {
 		this.scoreLabel = scoreLabel;
-		this.bombLabel = bombLabel;
+		this.scoreLabel.setStyle("-fx-font-size: 20px; -fx-font-family: Nexa Bold;");
+		this.scoreLabel.setTextFill(Color.web("white"));
+		
+		this.bombPane = bombPane;
 		this.blockPane = blockPane;
+		this.mainGC = mainGC;
 		
 		this.bombs = 0;
 		this.bomb = new Bomb(this);
@@ -53,6 +66,7 @@ public class GameController {
 			block.setOnMouseClicked(new BlockEventHandler(block));
 			this.blockPane.getChildren().add(block);
 		}
+		
 	}
 	
 	// Press enter to use bomb (if available)
@@ -65,7 +79,8 @@ public class GameController {
 			if (e.getCode().equals(KeyCode.ENTER)){
 				if (bombs > 0) {
 					bomb.usePowerUp();
-					bombLabel.setText("Bombs: " + getBombs());
+					bombPane.drawBombPane(getBombs());
+//					bombPane.setText("Bombs: " + getBombs());
 				}
 			}
 		}
@@ -80,6 +95,7 @@ public class GameController {
 		
 		@Override
 		public void handle(MouseEvent arg0) {
+			System.out.println("Hello");
 			if (block.isEmpty() || lose) return;
 			Node node = this.block.getCurrentNode();
 			if (node instanceof Enemy) {
@@ -88,7 +104,7 @@ public class GameController {
 				if (!e.takeDamage() || fever) {
 					block.clearNode();
 					available.add(block.getIndex());
-					scoreLabel.setText("Score: " + logic.addScore(100));
+					scoreLabel.setText(Integer.toString(logic.addScore(100)));
 				}
 			}
 			if (node instanceof PowerUp) {
@@ -98,7 +114,7 @@ public class GameController {
 					if (node instanceof Bomb) {
 						if (getBombs() < 3) {
 							c.collect();
-							bombLabel.setText("Bombs: " + getBombs());
+							bombPane.drawBombPane(getBombs());
 						} else return;
 					}
 				} else {
@@ -188,21 +204,28 @@ public class GameController {
 						block.setCurrentNode(new NormalEnemy());
 					} else {
 						int item = randomProb[new Random().nextInt(randomProb.length)];
-						if (item <= 5) block.setCurrentNode(new StrongEnemy());
-						else if (item == 6) block.setCurrentNodeWithTimer(new Bomb(this),3000);
-						else if (item == 7 && !this.fever) 
+						if (item <= 5) {
+							block.setCurrentNode(new StrongEnemy());
+						}
+						else if (item == 6) {
+							block.setCurrentNodeWithTimer(new Bomb(this),3000);
+						}
+						else if (item == 7 && !this.fever) {
 							// Fever
-							block.setCurrentNodeWithTimer(new PowerUp("green") {
+							block.setCurrentNodeWithTimer(new PowerUp(Resources.FEVERSTAR) {
 								public void usePowerUp() {
 									startFever();
 								}
 							},3000);
-						else if (item == 8) block.setCurrentNode(new PowerUp("orange") {
-							// Kill Adjacent Enemies
-							public void usePowerUp() {
-								killAdjacentEnemies(block.getIndex());
-							}
-						});
+						}
+						else if (item == 8) {
+							block.setCurrentNode(new PowerUp(Resources.DYNAMITE) {
+								// Kill Adjacent Enemies
+								public void usePowerUp() {
+									killAdjacentEnemies(block.getIndex());
+								}
+							});
+						}
 					}
 				}
 			}

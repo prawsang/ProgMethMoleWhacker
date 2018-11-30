@@ -1,8 +1,10 @@
 package item;
 
+import application.Resources;
+
 public class StrongEnemy extends Enemy {
 	public StrongEnemy() {
-		super(3, "blue");
+		super(3, Resources.STRONGENEMY);
 	}
 	
 	public boolean takeDamage() {

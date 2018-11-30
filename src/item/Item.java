@@ -11,7 +11,6 @@ public class Item extends StackPane {
 		
 		setPrefWidth(80);
 		setPrefHeight(80);
-		setStyle("-fx-background-color:" + this.image);
 	}
 	
 	public String getImage() {
