@@ -38,14 +38,13 @@ public class Block extends StackPane {
 		this.thread = new Thread(() -> {
 			try {
 				Platform.runLater(()->{
-					this.currentNode = n;
-					this.getChildren().clear();
-					this.getChildren().add(n);
+					setCurrentNode(n);
 				});
 				
 				Thread.sleep(duration);
 				Platform.runLater(()->{
 					this.clearNode();
+					GameController.available.add(this.index);
 				});
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -64,14 +63,14 @@ public class Block extends StackPane {
 		return this.currentNode;
 	}
 	public boolean isEmpty() {
-		return this.getChildren().size() == 0;
+		return this.getChildren().size() == 1;
 	}
 	
 	public void clearNode() {
 		if (this.getChildren().size() > 1) {
 			this.getChildren().remove(this.getChildren().size()-1);
 		}
-		this.canvas.getGraphicsContext2D().clearRect(0, 0, Main.BLOCKSIZE, Main.BLOCKSIZE); 
+		this.canvas.getGraphicsContext2D().clearRect(0, 0, Main.BLOCKSIZE, Main.BLOCKSIZE);
 	}
 	public int getIndex() {
 		return index;

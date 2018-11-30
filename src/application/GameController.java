@@ -24,8 +24,8 @@ public class GameController {
 	
 	// Random Algorithm
 	private int speed;
-	public static final int[] randomProb = {0,1,2,3,4,5,6,7,8};
-	private ArrayList<Integer> available;
+	private static final int[] randomProb = {0,1,2,3,4,5,6,7,8};
+	public static ArrayList<Integer> available;
 	
 	//PowerUps
 	private int bombs;
@@ -48,7 +48,7 @@ public class GameController {
 		
 		this.logic = new ScoreLogic();
 		this.speed = 1000;
-		this.available = new ArrayList<Integer>();
+		available = new ArrayList<Integer>();
 
 		// Add blocks to block pane
 		for (int i = 0; i < 12; i++) {
@@ -145,7 +145,7 @@ public class GameController {
 						this.randomGame();
 					});
 					if (this.lose) break;
-					if (this.available.size() == 0) {
+					if (available.size() == 0) {
 						System.out.println("You Lose");
 						this.lose = true;
 					}
@@ -179,14 +179,14 @@ public class GameController {
 		}
 		
 		for (int i = 0; i < itemsAtOnce; i++) {
-			if (this.available.size() <= 0) return;
+			if (available.size() <= 0) return;
 			
-			int position = new Random().nextInt(this.available.size());
-			Block block = (Block) this.blockPane.getChildren().get(this.available.get(position));
+			int position = new Random().nextInt(available.size());
+			Block block = (Block) this.blockPane.getChildren().get(available.get(position));
 			
-			if (!this.available.isEmpty()) {
+			if (!available.isEmpty()) {
 				random = randomProb[new Random().nextInt(randomProb.length)];
-				this.available.remove(position);
+				available.remove(position);
 				
 				if (this.speed >= 900) {
 					block.setCurrentNode(new NormalEnemy());
@@ -292,7 +292,7 @@ public class GameController {
 						if (block.hasRunningTimer()) block.stopTimer();
 					}
 				}
-				this.available.add(k);
+				available.add(k);
 			}
 		}
 	}

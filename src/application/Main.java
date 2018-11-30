@@ -64,6 +64,7 @@ public class Main extends Application {
 		labels.setTop(scoreLabel);
 		
 		bombPane = new BombPane();
+		bombPane.drawBombPane(0);
 		labels.setBottom(bombPane);
 		labels.setMouseTransparent(true);
 		root.getChildren().add(labels);

@@ -7,8 +7,8 @@ public class Resources {
 	public static final String SCORE = ClassLoader.getSystemResource("images/score_background.png").toString();
 	public static final String FEVER = ClassLoader.getSystemResource("images/fever.png").toString();
 	
-	public static final String NORMALENEMY = ClassLoader.getSystemResource("images/fever_star.png").toString();
-	public static final String STRONGENEMY = ClassLoader.getSystemResource("images/fever_star.png").toString();
+	public static final String NORMALENEMY = ClassLoader.getSystemResource("images/enemy.png").toString();
+	public static final String STRONGENEMY = ClassLoader.getSystemResource("images/strong_enemy.png").toString();
 	public static final String FEVERSTAR = ClassLoader.getSystemResource("images/fever_star.png").toString();
 	public static final String BOMB = ClassLoader.getSystemResource("images/bomb.png").toString();
 	public static final String DYNAMITE = ClassLoader.getSystemResource("images/dynamite.png").toString();

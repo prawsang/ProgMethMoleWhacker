@@ -5,7 +5,7 @@ import application.Resources;
 public class NormalEnemy extends Enemy {
 	
 	public NormalEnemy() {
-		super(1, Resources.FEVERSTAR);
+		super(1, Resources.NORMALENEMY);
 	}
 	
 	public boolean takeDamage() {
