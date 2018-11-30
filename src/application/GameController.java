@@ -10,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -34,21 +33,16 @@ public class GameController {
 	private int bombs;
 	private Bomb bomb;
 	private boolean fever;
-	private GraphicsContext mainGC;
 	
 	public GameController(
 			BlockPane blockPane, 
 			Label scoreLabel, 
-			BombPane bombPane, 
-			GraphicsContext mainGC
+			BombPane bombPane
 	) {
 		this.scoreLabel = scoreLabel;
-		this.scoreLabel.setStyle("-fx-font-size: 20px; -fx-font-family: Nexa Bold;");
-		this.scoreLabel.setTextFill(Color.web("white"));
 		
 		this.bombPane = bombPane;
 		this.blockPane = blockPane;
-		this.mainGC = mainGC;
 		
 		this.bombs = 0;
 		this.bomb = new Bomb(this);
@@ -95,7 +89,6 @@ public class GameController {
 		
 		@Override
 		public void handle(MouseEvent arg0) {
-			System.out.println("Hello");
 			if (block.isEmpty() || lose) return;
 			Node node = this.block.getCurrentNode();
 			if (node instanceof Enemy) {
@@ -230,6 +223,7 @@ public class GameController {
 				}
 			}
 		}
+		System.out.println(available.size());
 	}
 	
 	// Power Up Storage
@@ -258,7 +252,7 @@ public class GameController {
 				block.clearNode();
 			}
 		}
-		scoreLabel.setText("Score: " + this.logic.getScore());
+		scoreLabel.setText(Integer.toString(this.logic.getScore()));
 		available.clear();
 		for (int i = 0; i < 12; i++) {
 			available.add(i);

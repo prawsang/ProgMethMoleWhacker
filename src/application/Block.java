@@ -23,7 +23,7 @@ public class Block extends StackPane {
 		
 		setPrefWidth(Main.BLOCKSIZE);
 		setPrefHeight(Main.BLOCKSIZE);
-		setStyle("-fx-border-style: solid; -fx-border-width: 1px; -fx-border-color: #ddd");
+//		setStyle("-fx-outline-style: solid; -fx-outline-width: 1px; -fx-outline-color: #ddd;");
 	}
 	
 	public void setCurrentNode(Node n) {
@@ -80,12 +80,4 @@ public class Block extends StackPane {
 	public GraphicsContext getGC() {
 		return canvas.getGraphicsContext2D();
 	}
-	
-//	public double getX() {
-//		return Math.floorDiv(12, index) * (Main.BLOCKSIZE + Main.BLOCKSPACING);
-//	}
-//	public double getY() {
-//		return (12 % index) * (Main.BLOCKSIZE + Main.BLOCKSPACING);
-//	}
-	
 }
