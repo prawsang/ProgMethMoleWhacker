@@ -33,6 +33,7 @@ public class Main extends Application {
 		StackPane root = new StackPane();
 		
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Titan+One");
 		
 		Canvas canvas = new Canvas(WIDTH,HEIGHT);
 		root.getChildren().add(canvas);
@@ -58,9 +59,7 @@ public class Main extends Application {
 		scoreLabel.setPrefWidth(WIDTH);
 		scoreLabel.setAlignment(Pos.CENTER);
 		scoreLabel.setTextFill(Color.web("white"));
-		// Load Font
-		final Font f = Font.loadFont(("file:res/font/Nexa_Free_Bold.otf"), 30);
-		scoreLabel.setFont(f);
+		scoreLabel.setStyle("-fx-font-family: 'Titan One', cursive; -fx-font-size: 30px");
 		labels.setTop(scoreLabel);
 		
 		bombPane = new BombPane();
