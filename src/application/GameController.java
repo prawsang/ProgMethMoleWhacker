@@ -56,7 +56,7 @@ public class GameController {
 			
 			Block block = new Block(i);
 			block.setOnMouseClicked(new BlockEventHandler(block));
-			this.blockPane.getChildren().add(block);
+			this.blockPane.getTiles().getChildren().add(block);
 		}
 		
 	}
@@ -87,31 +87,33 @@ public class GameController {
 		@Override
 		public void handle(MouseEvent arg0) {
 			if (block.isEmpty() || lose) return;
-			Node node = this.block.getCurrentNode();
-			if (node instanceof Enemy) {
+			Item item = this.block.getCurrentItem();
+			if (item instanceof Enemy) {
 				// Take damage
-				Enemy e = (Enemy) node;
+				Enemy e = (Enemy) item;
 				if (!e.takeDamage() || fever) {
+					scoreLabel.setText(Integer.toString(logic.addScore(100)));
+					blockPane.clearGC(block.getIndex());
 					block.clearNode();
 					available.add(block.getIndex());
-					scoreLabel.setText(Integer.toString(logic.addScore(100)));
 				}
 			}
-			if (node instanceof PowerUp) {
+			if (item instanceof PowerUp) {
 				// Collect or use power up
-				if (node instanceof Collectible) {
-					Collectible c = (Collectible) node;
-					if (node instanceof Bomb) {
+				if (item instanceof Collectible) {
+					Collectible c = (Collectible) item;
+					if (item instanceof Bomb) {
 						if (getBombs() < 3) {
 							c.collect();
 							bombPane.drawBombPane(getBombs());
 						} else return;
 					}
 				} else {
-					PowerUp p = (PowerUp) node;
+					PowerUp p = (PowerUp) item;
 					p.usePowerUp();
 				}
 				if (block.hasRunningTimer()) block.stopTimer();
+				blockPane.clearGC(block.getIndex());
 				block.clearNode();
 				available.add(block.getIndex());
 			}
@@ -178,39 +180,40 @@ public class GameController {
 				itemsAtOnce = 2;
 			}
 		}
-		
 		for (int i = 0; i < itemsAtOnce; i++) {
 			if (available.size() <= 0) return;
 			
 			int position = new Random().nextInt(available.size());
-			Block block = (Block) this.blockPane.getChildren().get(available.get(position));
+			Block block = (Block) this.blockPane.getTiles().getChildren().get(available.get(position));
 
 			random = randomProb[new Random().nextInt(randomProb.length)];
 			available.remove(position);
 				
 			if (this.speed >= 900) {
-				block.setCurrentNode(new NormalEnemy());
+				block.setCurrentItem(new NormalEnemy());
 			} else {		
 				if (random <= 6) {
-					block.setCurrentNode(new NormalEnemy());
+					block.setCurrentItem(new NormalEnemy());
 				} else {
 					int item = randomProb[new Random().nextInt(randomProb.length)];
 					if (item <= 5) {
-						block.setCurrentNode(new StrongEnemy());
+						block.setCurrentItem(new StrongEnemy());
 					}
 					else if (item == 6) {
-						block.setCurrentNodeWithTimer(new Bomb(this),3000);
+						block.setCurrentItemWithTimer(new Bomb(this),3000);
+						blockPane.drawGC(block.getIndex(), block.getCurrentItem().getImage());
 					}
 					else if (item == 7 && !this.fever) {
 						// Fever
-						block.setCurrentNodeWithTimer(new PowerUp(Resources.FEVERSTAR) {
+						System.out.println("fever");
+						block.setCurrentItemWithTimer(new PowerUp(Resources.FEVERSTAR) {
 							public void usePowerUp() {
 								startFever();
 							}
 						},3000);
 					}
 					else {
-						block.setCurrentNode(new PowerUp(Resources.DYNAMITE) {
+						block.setCurrentItem(new PowerUp(Resources.DYNAMITE) {
 							// Kill Adjacent Enemies
 							public void usePowerUp() {
 								killAdjacentEnemies(block.getIndex());
@@ -219,6 +222,7 @@ public class GameController {
 					}
 				}
 			}
+			blockPane.drawGC(block.getIndex(), block.getCurrentItem().getImage());
 		}
 	}
 	
@@ -239,10 +243,10 @@ public class GameController {
 	
 	// Power Ups
 	public void clearBoard() {
-		for (Node node : this.blockPane.getChildren()) {
+		for (Node node : this.blockPane.getTiles().getChildren()) {
 			Block block = (Block) node;
 			if (!block.isEmpty()) {
-				if (block.getCurrentNode() instanceof Enemy) {
+				if (block.getCurrentItem() instanceof Enemy) {
 					this.logic.addScore(100);
 				}
 				block.clearNode();
@@ -277,10 +281,11 @@ public class GameController {
 		
 		for (int k : kill) {
 			if (k >=0 && k<12) {
-				Block block =  (Block) this.blockPane.getChildren().get(k);
+				Block block =  (Block) this.blockPane.getTiles().getChildren().get(k);
 				if (!block.isEmpty()) {
+					blockPane.clearGC(block.getIndex());
 					block.clearNode();
-					if (block.getCurrentNode() instanceof Enemy) {
+					if (block.getCurrentItem() instanceof Enemy) {
 						this.logic.addScore(100);
 					} else {
 						if (block.hasRunningTimer()) block.stopTimer();
@@ -304,7 +309,7 @@ public class GameController {
 		System.out.println("========");
 	}
 	private void colorAvailable() {
-		for (Node n : blockPane.getChildren()) {
+		for (Node n : blockPane.getTiles().getChildren()) {
 			n.setStyle("-fx-background: none");
 		}
 		for (int i : available) {

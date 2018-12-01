@@ -43,7 +43,7 @@ public class Main extends Application {
 		
 		// Block Pane
 		blockPane = new BlockPane();
-		blockPane.setPadding(new Insets(100,53,0,53));
+//		blockPane.setPadding(new Insets(100,53,0,53));
 		root.getChildren().add(blockPane);
 		
 		// Frame

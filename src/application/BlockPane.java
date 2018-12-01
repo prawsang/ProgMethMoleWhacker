@@ -1,14 +1,61 @@
 package application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
 
-public class BlockPane extends TilePane {
+public class BlockPane extends StackPane {
 	
-	public BlockPane() {	
-		setPrefRows(4);
-		setPrefColumns(3);
-		setTileAlignment(Pos.CENTER);
-		setHgap(Main.BLOCKSPACING);
-		setVgap(Main.BLOCKSPACING);
+	private TilePane tiles;
+	private Canvas canvas;
+	
+	public BlockPane() {
+		tiles = new TilePane();
+		
+		tiles.setPrefRows(4);
+		tiles.setPrefColumns(3);
+		tiles.setTileAlignment(Pos.CENTER);
+		tiles.setHgap(Main.BLOCKSPACING);
+		tiles.setVgap(Main.BLOCKSPACING);
+		tiles.setPadding(new Insets(100,53,0,53));
+		
+		canvas = new Canvas(Main.BLOCKSIZE*3 + Main.BLOCKSPACING*2, Main.BLOCKSIZE*4 + Main.BLOCKSPACING*3);
+		canvas.setStyle("-fx-background-color: red");
+		getChildren().addAll(canvas, tiles);
+		
+		Image img = new Image(Resources.BOMB);
+		this.getGC().setFill(new Color(1,0,0,1.0));
+		this.getGC().drawImage(img, 0, -50, img.getWidth()/2, img.getHeight()/2);
+		
 	}
+	
+	public TilePane getTiles() {
+		return tiles;
+	}
+	
+	public GraphicsContext getGC() {
+		return canvas.getGraphicsContext2D();
+	}
+	
+	public void drawGC(int index, String imagePath) {
+		
+		double x = (index % 3) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
+		double y = (Math.floor(index/3)) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
+		
+		Image img = new Image(imagePath);
+		this.getGC().drawImage(img, x, y, Main.BLOCKSIZE, Main.BLOCKSIZE);
+	}
+	
+	public void clearGC(int index) {
+		double x = (index % 3) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
+		double y = (Math.floor(index/3)) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
+		
+		this.getGC().clearRect(x, y, Main.BLOCKSIZE, Main.BLOCKSIZE);
+	}
+	
+	
 }
