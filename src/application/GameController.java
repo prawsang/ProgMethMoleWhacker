@@ -72,7 +72,6 @@ public class GameController {
 				if (bombs > 0) {
 					bomb.usePowerUp();
 					bombPane.drawBombPane(getBombs());
-//					bombPane.setText("Bombs: " + getBombs());
 				}
 			}
 		}
@@ -119,15 +118,17 @@ public class GameController {
 		}
 	}
 	
-	// Main game loop (random)
+	// Main game loop
 	public void startGameLoop() {
+		// Increases Speed
 		Thread speedThread = new Thread(() -> {
 			while(true) {
 				try {
 					Thread.sleep(15000);
-					if (this.speed > 500) {
+					if (this.speed > 600) {
 						this.speed -= 50;
 					}
+					if (this.speed == 600) break;
 					if (this.lose) break;
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -136,7 +137,7 @@ public class GameController {
 		});
 		speedThread.start();
 		
-		
+		// Random
 		Thread t = new Thread(() ->  {
 			while(true) {
 				try {
@@ -183,45 +184,42 @@ public class GameController {
 			
 			int position = new Random().nextInt(available.size());
 			Block block = (Block) this.blockPane.getChildren().get(available.get(position));
-			
-			if (!available.isEmpty()) {
-				random = randomProb[new Random().nextInt(randomProb.length)];
-				available.remove(position);
+
+			random = randomProb[new Random().nextInt(randomProb.length)];
+			available.remove(position);
 				
-				if (this.speed >= 900) {
+			if (this.speed >= 900) {
+				block.setCurrentNode(new NormalEnemy());
+			} else {		
+				if (random <= 6) {
 					block.setCurrentNode(new NormalEnemy());
-				} else {		
-					if (random <= 6) {
-						block.setCurrentNode(new NormalEnemy());
-					} else {
-						int item = randomProb[new Random().nextInt(randomProb.length)];
-						if (item <= 5) {
-							block.setCurrentNode(new StrongEnemy());
-						}
-						else if (item == 6) {
-							block.setCurrentNodeWithTimer(new Bomb(this),3000);
-						}
-						else if (item == 7 && !this.fever) {
-							// Fever
-							block.setCurrentNodeWithTimer(new PowerUp(Resources.FEVERSTAR) {
-								public void usePowerUp() {
-									startFever();
-								}
-							},3000);
-						}
-						else if (item == 8) {
-							block.setCurrentNode(new PowerUp(Resources.DYNAMITE) {
-								// Kill Adjacent Enemies
-								public void usePowerUp() {
-									killAdjacentEnemies(block.getIndex());
-								}
-							});
-						}
+				} else {
+					int item = randomProb[new Random().nextInt(randomProb.length)];
+					if (item <= 5) {
+						block.setCurrentNode(new StrongEnemy());
+					}
+					else if (item == 6) {
+						block.setCurrentNodeWithTimer(new Bomb(this),3000);
+					}
+					else if (item == 7 && !this.fever) {
+						// Fever
+						block.setCurrentNodeWithTimer(new PowerUp(Resources.FEVERSTAR) {
+							public void usePowerUp() {
+								startFever();
+							}
+						},3000);
+					}
+					else {
+						block.setCurrentNode(new PowerUp(Resources.DYNAMITE) {
+							// Kill Adjacent Enemies
+							public void usePowerUp() {
+								killAdjacentEnemies(block.getIndex());
+							}
+						});
 					}
 				}
 			}
 		}
-		System.out.println(available.size());
 	}
 	
 	// Power Up Storage
@@ -248,13 +246,10 @@ public class GameController {
 					this.logic.addScore(100);
 				}
 				block.clearNode();
+				available.add(block.getIndex());
 			}
 		}
 		scoreLabel.setText(Integer.toString(this.logic.getScore()));
-		available.clear();
-		for (int i = 0; i < 12; i++) {
-			available.add(i);
-		}
 	}
 	public void startFever() {
 		Thread t = new Thread(() -> {
@@ -284,16 +279,37 @@ public class GameController {
 			if (k >=0 && k<12) {
 				Block block =  (Block) this.blockPane.getChildren().get(k);
 				if (!block.isEmpty()) {
+					block.clearNode();
 					if (block.getCurrentNode() instanceof Enemy) {
-						block.clearNode();
 						this.logic.addScore(100);
 					} else {
-						block.clearNode();
 						if (block.hasRunningTimer()) block.stopTimer();
 					}
+					available.add(k);
 				}
-				available.add(k);
 			}
 		}
 	}
+	
+	// Debug
+	private void printAvailable() {
+		int[] a = {1,1,1,1,1,1,1,1,1,1,1,1};
+		for (int i : available) {
+			a[i] = 0;
+		}
+		for (int j = 0; j < a.length; j++) {
+			System.out.print(a[j]);
+			if ((j+1) % 3 == 0 ) System.out.println("");
+		}
+		System.out.println("========");
+	}
+	private void colorAvailable() {
+		for (Node n : blockPane.getChildren()) {
+			n.setStyle("-fx-background: none");
+		}
+		for (int i : available) {
+			blockPane.getChildren().get(i).setStyle("-fx-background-color: #888");
+		}
+	}
 }
+
