@@ -26,11 +26,6 @@ public class BlockPane extends StackPane {
 		canvas = new Canvas(Main.BLOCKSIZE*3 + Main.BLOCKSPACING*2, Main.BLOCKSIZE*4 + Main.BLOCKSPACING*3);
 		canvas.setStyle("-fx-background-color: red");
 		getChildren().addAll(canvas, tiles);
-		
-		Image img = new Image(Resources.BOMB);
-		this.getGC().setFill(new Color(1,0,0,1.0));
-		this.getGC().drawImage(img, 0, -50, img.getWidth()/2, img.getHeight()/2);
-		
 	}
 	
 	public TilePane getTiles() {

@@ -47,7 +47,7 @@ public class GameController {
 		this.fever = false;
 		
 		this.logic = new ScoreLogic();
-		this.speed = 1000;
+		this.speed = 600;
 		available = new ArrayList<Integer>();
 
 		// Add blocks to block pane
@@ -249,6 +249,7 @@ public class GameController {
 				if (block.getCurrentItem() instanceof Enemy) {
 					this.logic.addScore(100);
 				}
+				blockPane.clearGC(block.getIndex());
 				block.clearNode();
 				available.add(block.getIndex());
 			}
