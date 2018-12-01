@@ -43,11 +43,20 @@ public class Main extends Application {
 		
 		// Block Pane
 		blockPane = new BlockPane();
-//		blockPane.setPadding(new Insets(100,53,0,53));
 		root.getChildren().add(blockPane);
 		
 		// Frame
 		gc.drawImage(new Image(Resources.FRAME), 0, 0, WIDTH, HEIGHT);
+		
+		// Fever Effects
+		Canvas feverEffects = new Canvas(WIDTH, HEIGHT);
+		feverEffects.setMouseTransparent(true);
+		root.getChildren().add(feverEffects);
+		
+		// Boom
+		Canvas effects = new Canvas(WIDTH, HEIGHT);
+		effects.setMouseTransparent(true);
+		root.getChildren().add(effects);
 		
 		// Labels
 		BorderPane labels = new BorderPane();
@@ -68,7 +77,13 @@ public class Main extends Application {
 		root.getChildren().add(labels);
 		
 		// Start Game
-		GameController gameController = new GameController(blockPane, scoreLabel, bombPane);
+		GameController gameController = new GameController(
+				blockPane, 
+				scoreLabel, 
+				bombPane, 
+				effects.getGraphicsContext2D(), 
+				feverEffects.getGraphicsContext2D()
+			);
 		gameController.setUpEnterEventHandler(scene);
 		gameController.startGameLoop();
 

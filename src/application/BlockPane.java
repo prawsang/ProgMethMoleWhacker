@@ -36,20 +36,21 @@ public class BlockPane extends StackPane {
 		return canvas.getGraphicsContext2D();
 	}
 	
+	public double getX(int index) {
+		return (index % 3) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
+	}
+	public double getY(int index) {
+		return (Math.floor(index/3)) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
+	}
+	
 	public void drawGC(int index, String imagePath) {
 		
-		double x = (index % 3) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
-		double y = (Math.floor(index/3)) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
-		
 		Image img = new Image(imagePath);
-		this.getGC().drawImage(img, x, y, Main.BLOCKSIZE, Main.BLOCKSIZE);
+		this.getGC().drawImage(img, getX(index), getY(index), Main.BLOCKSIZE, Main.BLOCKSIZE);
 	}
 	
 	public void clearGC(int index) {
-		double x = (index % 3) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
-		double y = (Math.floor(index/3)) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
-		
-		this.getGC().clearRect(x, y, Main.BLOCKSIZE, Main.BLOCKSIZE);
+		this.getGC().clearRect(getX(index), getY(index), Main.BLOCKSIZE, Main.BLOCKSIZE);
 	}
 	
 	

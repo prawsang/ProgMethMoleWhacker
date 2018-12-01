@@ -9,8 +9,11 @@ public class Block extends StackPane {
 	private final int index;
 	private Thread thread;
 	
-	public Block(int index) {
+	private BlockPane blockPane;
+	
+	public Block(int index, BlockPane blockPane) {
 		this.index = index;
+		this.blockPane = blockPane;
 		
 		setPrefWidth(Main.BLOCKSIZE);
 		setPrefHeight(Main.BLOCKSIZE);
@@ -20,6 +23,7 @@ public class Block extends StackPane {
 	public void setCurrentItem(Item i) {
 		this.currentItem = i;
 		this.clearNode();
+		this.blockPane.drawGC(index, currentItem.getImage());
 		this.getChildren().add(i);
 	}
 	public void setCurrentItemWithTimer(Item i, int duration) {
@@ -52,6 +56,7 @@ public class Block extends StackPane {
 	}
 	
 	public void clearNode() {
+		this.blockPane.clearGC(index);
 		this.getChildren().clear();
 	}
 	public int getIndex() {

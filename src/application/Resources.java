@@ -18,4 +18,11 @@ public class Resources {
 	public static final String BOMBS2 = ClassLoader.getSystemResource("images/bombs_2.png").toString();
 	public static final String BOMBS3 = ClassLoader.getSystemResource("images/bombs_3.png").toString();
 	
+	public static final String BIGBOOM = ClassLoader.getSystemResource("images/big_boom.png").toString();
+	public static final String BOOM = ClassLoader.getSystemResource("images/boom.png").toString();
+	public static final String HIT = ClassLoader.getSystemResource("images/hit.png").toString();
+	
+	public static final String PLAY = ClassLoader.getSystemResource("images/play.png").toString();
+	public static final String PAUSE = ClassLoader.getSystemResource("images/pause.png").toString();
+	
 }
