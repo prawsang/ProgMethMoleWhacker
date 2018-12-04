@@ -1,6 +1,6 @@
 package component;
 import application.GameController;
-import application.Main;
+import application.Constants;
 import item.Item;
 import javafx.application.Platform;
 import javafx.scene.layout.StackPane;
@@ -17,8 +17,8 @@ public class Block extends StackPane {
 		this.index = index;
 		this.blockPane = blockPane;
 		
-		setPrefWidth(Main.BLOCKSIZE);
-		setPrefHeight(Main.BLOCKSIZE);
+		setPrefWidth(Constants.BLOCKSIZE);
+		setPrefHeight(Constants.BLOCKSIZE);
 //		setStyle("-fx-background-color: #ddd; -fx-opacity: 0.5;");
 	}
 	

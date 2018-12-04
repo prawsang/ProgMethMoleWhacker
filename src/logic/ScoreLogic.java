@@ -21,4 +21,8 @@ public class ScoreLogic {
 	public void setScoreMultiplier(int multiplier) {
 		scoreMultiplier = multiplier;
 	}
+	public int resetScore() {
+		this.score = 0;
+		return this.score;
+	}
 }

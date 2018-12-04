@@ -12,8 +12,8 @@ public class SplashScreen extends VBox {
 	public SplashScreen() {
 		Title title = new Title();
 		
-		startButton = new CustomButton("Start Game",0);
-		exitButton = new CustomButton("Exit",0);
+		startButton = new CustomButton("Start Game");
+		exitButton = new CustomButton("Exit");
 	
 		setAlignment(Pos.CENTER);
 		setSpacing(10);

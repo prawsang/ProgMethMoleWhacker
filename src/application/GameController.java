@@ -20,24 +20,27 @@ import logic.RandomLogic;
 import logic.ScoreLogic;
 
 public class GameController {
-
+	
+	// Components
 	private BlockPane blockPane;
 	private Label scoreLabel;
 	private BombPane bombPane;
-	private ScoreLogic logic;
+	
+	// Logic
+	private ScoreLogic scoreLogic;
 	private RandomLogic randomLogic;
-	private GraphicsContext effects;
-	
-	private boolean lose;
-	
+	private boolean running = false;
 	private int speed;
 	public static ArrayList<Integer> available;
+	
+	// Effects
+	private GraphicsContext effects;
+	private GraphicsContext feverEffect;
 	
 	//PowerUps
 	private int bombs;
 	private Bomb bomb;
 	private boolean fever;
-	private GraphicsContext feverEffect;
 	
 	public GameController(
 			BlockPane blockPane, 
@@ -58,9 +61,9 @@ public class GameController {
 		this.fever = false;
 		this.feverEffect = feverEffects;
 		
-		this.logic = new ScoreLogic();
+		this.scoreLogic = new ScoreLogic();
 		this.randomLogic = new RandomLogic();
-		this.speed = 1000;
+		this.speed = Constants.MININTERVAL;
 		available = new ArrayList<Integer>();
 
 		// Add blocks to block pane
@@ -84,7 +87,7 @@ public class GameController {
 				}
 			});
 			block.setOnMouseReleased((e) -> {
-				effects.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+				effects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 			});
 			
 			this.blockPane.getTiles().getChildren().add(block);
@@ -107,8 +110,8 @@ public class GameController {
 					Image boom = new Image(Resources.BIGBOOM);
 					effects.drawImage(
 							boom, 
-							(Main.WIDTH - boom.getWidth()/2)/2, 
-							(Main.HEIGHT - boom.getHeight()/2)/2,
+							(Constants.WIDTH - boom.getWidth()/2)/2, 
+							(Constants.HEIGHT - boom.getHeight()/2)/2,
 							boom.getWidth()/2,
 							boom.getHeight()/2
 						);
@@ -127,13 +130,13 @@ public class GameController {
 		
 		@Override
 		public void handle(MouseEvent arg0) {
-			if (block.isEmpty() || lose) return;
+			if (block.isEmpty() || !running) return;
 			Item item = this.block.getCurrentItem();
 			if (item instanceof Enemy) {
 				// Take damage
 				Enemy e = (Enemy) item;
 				if (!e.takeDamage() || fever) {
-					scoreLabel.setText(Integer.toString(logic.addScore(100)));
+					scoreLabel.setText(Integer.toString(scoreLogic.addScore(100)));
 					block.clearNode();
 					available.add(block.getIndex());
 				}
@@ -161,16 +164,17 @@ public class GameController {
 	
 	// Main game loop
 	public void startGameLoop() {
+		this.running = true;
 		// Increases Speed
 		Thread speedThread = new Thread(() -> {
 			while(true) {
 				try {
 					Thread.sleep(15000);
-					if (this.speed > 600) {
-						this.speed -= 50;
+					if (this.speed > Constants.MAXINTERVAL) {
+						this.speed -= Constants.INTERVALSTEP;
 					}
-					if (this.speed == 600) break;
-					if (this.lose) break;
+					if (this.speed == Constants.MININTERVAL) break;
+					if (!this.running) break;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -186,10 +190,11 @@ public class GameController {
 					Platform.runLater(() -> {
 						this.randomGame();
 					});
-					if (this.lose) break;
+					if (!this.running) break;
 					if (available.size() == 0) {
-						System.out.println("You Lose");
-						this.lose = true;
+						Platform.runLater(() -> {
+							gameOver();
+						});
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -199,12 +204,31 @@ public class GameController {
 		t.start();
 	}
 	
+	// Reset Values
+	public void resetValues() {
+		clearBoard();
+		this.speed = Constants.MAXINTERVAL;
+		this.scoreLabel.setText(Integer.toString(this.scoreLogic.resetScore()));
+		this.fever = false;
+	}
+	
+	// Game Over
+	private void gameOver() {
+		this.running = false;
+		this.fever = false;
+		Main.showGameOver(scoreLogic.getScore());
+	}
+	
 	// Random
 	private void randomGame() {
+		if (available.size() <= 0) return;
+		
 		int itemsAtOnce = randomLogic.randomItemsAtOnce(this.speed);
 		for (int i = 0; i < itemsAtOnce; i++) {
 			int position = randomLogic.randomPosition(available);
-			Block block = (Block) blockPane.getTiles().getChildren().get(position);
+			Block block = (Block) blockPane.getTiles().getChildren().get(available.get(position));
+			available.remove(position);
+			
 			int randomItem = randomLogic.randomItem(available, this.speed, this.fever);
 			Item item;
 			switch (randomItem) {
@@ -252,24 +276,24 @@ public class GameController {
 			Block block = (Block) node;
 			if (!block.isEmpty()) {
 				if (block.getCurrentItem() instanceof Enemy) {
-					this.logic.addScore(100);
+					this.scoreLogic.addScore(100);
 				}
 				block.clearNode();
 				available.add(block.getIndex());
 			}
 		}
-		scoreLabel.setText(Integer.toString(this.logic.getScore()));
+		scoreLabel.setText(Integer.toString(this.scoreLogic.getScore()));
 	}
 	public void startFever() {
-		this.logic.setScoreMultiplier(3);
+		this.scoreLogic.setScoreMultiplier(3);
 		this.fever = true;
-		this.feverEffect.drawImage(new Image(Resources.FEVER), 0, 0, Main.WIDTH, Main.HEIGHT);
+		this.feverEffect.drawImage(new Image(Resources.FEVER), 0, 0, Constants.WIDTH, Constants.HEIGHT);
 		Thread t = new Thread(() -> {
 			try {
 				Thread.sleep(10000);
-				this.logic.setScoreMultiplier(1);
+				this.scoreLogic.setScoreMultiplier(1);
 				this.fever = false;
-				this.feverEffect.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+				this.feverEffect.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -291,7 +315,7 @@ public class GameController {
 				if (!block.isEmpty()) {
 					block.clearNode();
 					if (block.getCurrentItem() instanceof Enemy) {
-						this.logic.addScore(100);
+						this.scoreLogic.addScore(100);
 					} else {
 						if (block.hasRunningTimer()) block.stopTimer();
 					}
@@ -300,8 +324,8 @@ public class GameController {
 							new Image(Resources.BOOM), 
 							blockPane.getX(k) + 53, 
 							blockPane.getY(k) + 110, 
-							Main.BLOCKSIZE, 
-							Main.BLOCKSIZE
+							Constants.BLOCKSIZE, 
+							Constants.BLOCKSIZE
 						);
 				}
 			}
@@ -310,8 +334,8 @@ public class GameController {
 				new Image(Resources.BOOM), 
 				blockPane.getX(position) + 53, 
 				blockPane.getY(position) + 110, 
-				Main.BLOCKSIZE, 
-				Main.BLOCKSIZE
+				Constants.BLOCKSIZE, 
+				Constants.BLOCKSIZE
 			);
 		startEffectsTimer();
 	}
@@ -321,7 +345,7 @@ public class GameController {
 		Thread t = new Thread(()->  {
 			try {
 				Thread.sleep(500);
-				effects.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+				effects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

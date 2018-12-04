@@ -1,5 +1,5 @@
 package component;
-import application.Main;
+import application.Constants;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
@@ -19,11 +19,11 @@ public class BlockPane extends StackPane {
 		tiles.setPrefRows(4);
 		tiles.setPrefColumns(3);
 		tiles.setTileAlignment(Pos.CENTER);
-		tiles.setHgap(Main.BLOCKSPACING);
-		tiles.setVgap(Main.BLOCKSPACING);
+		tiles.setHgap(Constants.BLOCKSPACING);
+		tiles.setVgap(Constants.BLOCKSPACING);
 		tiles.setPadding(new Insets(100,53,0,53));
 		
-		canvas = new Canvas(Main.BLOCKSIZE*3 + Main.BLOCKSPACING*2, Main.BLOCKSIZE*4 + Main.BLOCKSPACING*3);
+		canvas = new Canvas(Constants.BLOCKSIZE*3 + Constants.BLOCKSPACING*2, Constants.BLOCKSIZE*4 + Constants.BLOCKSPACING*3);
 		canvas.setStyle("-fx-background-color: red");
 		getChildren().addAll(canvas, tiles);
 	}
@@ -37,20 +37,20 @@ public class BlockPane extends StackPane {
 	}
 	
 	public double getX(int index) {
-		return (index % 3) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
+		return (index % 3) * (Constants.BLOCKSIZE+Constants.BLOCKSPACING);
 	}
 	public double getY(int index) {
-		return (Math.floor(index/3)) * (Main.BLOCKSIZE+Main.BLOCKSPACING);
+		return (Math.floor(index/3)) * (Constants.BLOCKSIZE+Constants.BLOCKSPACING);
 	}
 	
 	public void drawGC(int index, String imagePath) {
 		
 		Image img = new Image(imagePath);
-		this.getGC().drawImage(img, getX(index), getY(index), Main.BLOCKSIZE, Main.BLOCKSIZE);
+		this.getGC().drawImage(img, getX(index), getY(index), Constants.BLOCKSIZE, Constants.BLOCKSIZE);
 	}
 	
 	public void clearGC(int index) {
-		this.getGC().clearRect(getX(index), getY(index), Main.BLOCKSIZE, Main.BLOCKSIZE);
+		this.getGC().clearRect(getX(index), getY(index), Constants.BLOCKSIZE, Constants.BLOCKSIZE);
 	}
 	
 	
