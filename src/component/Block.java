@@ -1,4 +1,6 @@
-package application;
+package component;
+import application.GameController;
+import application.Main;
 import item.Item;
 import javafx.application.Platform;
 import javafx.scene.layout.StackPane;

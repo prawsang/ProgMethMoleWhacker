@@ -1,10 +1,13 @@
 package application;
 import javafx.stage.Stage;
-
+import component.BlockPane;
+import component.BombPane;
+import component.SplashScreen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -18,22 +21,35 @@ public class Main extends Application {
 	
 	public static final int MAXBLOCK = 12;
 	
+	// Color
+	public static final String ORANGE = "#F47218";
+	
 	// Sizes
 	public static final int WIDTH = 354;
 	public static final int HEIGHT = 557;
 	public static final int BLOCKSIZE = 80;
 	public static final double BLOCKSPACING = 3;
 	
+	// Scene
+	private Scene scene;
+	private StackPane root;
+	private SplashScreen splashScreen;
 	
+	// Components
 	private BlockPane blockPane;
 	private Label scoreLabel;
 	private BombPane bombPane;
+	private Canvas effects;
+	private Canvas feverEffects;
+	
+	// Controller
+	GameController gameController;
 
 	@Override
 	public void start(Stage primaryStage) {
-		StackPane root = new StackPane();
+		root = new StackPane();
 		
-		Scene scene = new Scene(root);
+		scene = new Scene(root);
 		scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Titan+One");
 		
 		Canvas canvas = new Canvas(WIDTH,HEIGHT);
@@ -76,18 +92,21 @@ public class Main extends Application {
 		bombPane.drawBombPane(0);
 		labels.setBottom(bombPane);
 		labels.setMouseTransparent(true);
-		root.getChildren().add(labels);
+		root.getChildren().add(labels);	
 		
-		// Start Game
-		GameController gameController = new GameController(
+		// Splash Screen
+		splashScreen = new SplashScreen();
+		root.getChildren().add(splashScreen);
+		setUpSplashScreenEvents();
+		
+		// GameController
+		gameController = new GameController(
 				blockPane, 
 				scoreLabel, 
 				bombPane, 
 				effects.getGraphicsContext2D(), 
 				feverEffects.getGraphicsContext2D()
 			);
-		gameController.setUpEnterEventHandler(scene);
-		gameController.startGameLoop();
 
 		// TODO Set up the stage
 		primaryStage.setScene(scene);
@@ -96,6 +115,24 @@ public class Main extends Application {
 		primaryStage.setWidth(WIDTH);
 		primaryStage.setHeight(HEIGHT);
 		primaryStage.show();
+	}
+	
+	private void setUpSplashScreenEvents() {
+		Button startButton = splashScreen.getStartButton();
+		Button exitButton = splashScreen.getExitButton();
+		
+		startButton.setOnAction((e) -> {
+			startGame();
+			root.getChildren().remove(splashScreen);
+		});
+		exitButton.setOnAction((e) -> {
+			System.exit(0);
+		});
+	}
+	
+	private void startGame() {
+		gameController.setUpEnterEventHandler(scene);
+		gameController.startGameLoop();
 	}
 	
 	public static void main(String [] args) {

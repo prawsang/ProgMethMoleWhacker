@@ -1,6 +1,7 @@
-package application;
+package component;
 
 import javafx.scene.image.Image;
+import application.Resources;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;

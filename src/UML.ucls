@@ -37,8 +37,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="application.Block" project="ProgMethMoleWhacker" 
-    file="/ProgMethMoleWhacker/src/application/Block.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="component.Block" project="ProgMethMoleWhacker" 
+    file="/ProgMethMoleWhacker/src/component/Block.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="620" y="54"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -46,8 +46,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="application.BlockPane" project="ProgMethMoleWhacker" 
-    file="/ProgMethMoleWhacker/src/application/BlockPane.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="component.BlockPane" project="ProgMethMoleWhacker" 
+    file="/ProgMethMoleWhacker/src/component/BlockPane.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="548" y="253"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      

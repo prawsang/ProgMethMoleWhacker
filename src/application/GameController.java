@@ -2,6 +2,9 @@ package application;
 
 import java.util.ArrayList;
 
+import component.Block;
+import component.BlockPane;
+import component.BombPane;
 import item.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
