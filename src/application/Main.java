@@ -16,6 +16,8 @@ import javafx.geometry.Pos;
 
 public class Main extends Application {
 	
+	public static final int MAXBLOCK = 12;
+	
 	// Sizes
 	public static final int WIDTH = 354;
 	public static final int HEIGHT = 557;

@@ -1,7 +1,6 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import item.*;
 import javafx.application.Platform;
@@ -14,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import logic.RandomLogic;
+import logic.ScoreLogic;
 
 public class GameController {
 
@@ -21,13 +22,12 @@ public class GameController {
 	private Label scoreLabel;
 	private BombPane bombPane;
 	private ScoreLogic logic;
+	private RandomLogic randomLogic;
 	private GraphicsContext effects;
 	
 	private boolean lose;
 	
-	// Random Algorithm
 	private int speed;
-	private static final int[] randomProb = {0,1,2,3,4,5,6,7,8};
 	public static ArrayList<Integer> available;
 	
 	//PowerUps
@@ -56,6 +56,7 @@ public class GameController {
 		this.feverEffect = feverEffects;
 		
 		this.logic = new ScoreLogic();
+		this.randomLogic = new RandomLogic();
 		this.speed = 1000;
 		available = new ArrayList<Integer>();
 
@@ -108,17 +109,7 @@ public class GameController {
 							boom.getWidth()/2,
 							boom.getHeight()/2
 						);
-					Thread t = new Thread(() -> {
-						try {
-							Thread.sleep(500);
-							Platform.runLater(()-> {
-								effects.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
-							});
-						} catch (InterruptedException ex) {
-							ex.printStackTrace();
-						}
-					});
-					t.start();
+					startEffectsTimer();
 				}
 			}
 		}
@@ -205,65 +196,34 @@ public class GameController {
 		t.start();
 	}
 	
-	// Random Algorithm
+	// Random
 	private void randomGame() {
-		int itemsAtOnce = 1;
-		int random = randomProb[new Random().nextInt(randomProb.length)];
-		
-		if (this.speed < 1000) {
-			if (random <= 5) {
-				itemsAtOnce = 1;
-			} else {
-				itemsAtOnce = 2;
-			}
-		} else if (this.speed < 800) {
-			if (random <= 4) {
-				itemsAtOnce = 1;
-			} else if (random >= 7) {
-				itemsAtOnce = 3;
-			} else {
-				itemsAtOnce = 2;
-			}
-		}
+		int itemsAtOnce = randomLogic.randomItemsAtOnce(this.speed);
 		for (int i = 0; i < itemsAtOnce; i++) {
-			if (available.size() <= 0) return;
-			
-			int position = new Random().nextInt(available.size());
-			Block block = (Block) this.blockPane.getTiles().getChildren().get(available.get(position));
-
-			random = randomProb[new Random().nextInt(randomProb.length)];
-			available.remove(position);
-				
-			if (this.speed >= 900) {
-				block.setCurrentItem(new NormalEnemy());
-			} else {		
-				if (random <= 6) {
-					block.setCurrentItem(new NormalEnemy());
-				} else {
-					int item = randomProb[new Random().nextInt(randomProb.length)];
-					if (item <= 5) {
-						block.setCurrentItem(new StrongEnemy());
+			int position = randomLogic.randomPosition(available);
+			Block block = (Block) blockPane.getTiles().getChildren().get(position);
+			int randomItem = randomLogic.randomItem(available, this.speed, this.fever);
+			Item item;
+			switch (randomItem) {
+				case 0: item = new NormalEnemy();
+				case 1: item = new StrongEnemy();
+				case 2: item = new Bomb(this);
+				case 3: item = new PowerUp(Resources.FEVERSTAR) {
+					public void usePowerUp() {
+						startFever();
 					}
-					else if (item == 6) {
-						block.setCurrentItemWithTimer(new Bomb(this),3000);
+				};
+				case 4: item = new PowerUp(Resources.DYNAMITE) {
+					public void usePowerUp() {
+						killAdjacentEnemies(position);
 					}
-					else if (item == 7 && !this.fever) {
-						// Fever
-						block.setCurrentItemWithTimer(new PowerUp(Resources.FEVERSTAR) {
-							public void usePowerUp() {
-								startFever();
-							}
-						},3000);
-					}
-					else {
-						block.setCurrentItem(new PowerUp(Resources.DYNAMITE) {
-							// Kill Adjacent Enemies
-							public void usePowerUp() {
-								killAdjacentEnemies(block.getIndex());
-							}
-						});
-					}
-				}
+				};
+				default: item = new NormalEnemy();
+			}
+			if (item instanceof PowerUp) {
+				block.setCurrentItemWithTimer(item, 3000);
+			} else {
+				block.setCurrentItem(item);
 			}
 		}
 	}
@@ -350,6 +310,11 @@ public class GameController {
 				Main.BLOCKSIZE, 
 				Main.BLOCKSIZE
 			);
+		startEffectsTimer();
+	}
+	
+	// Effects
+	private void startEffectsTimer() {
 		Thread t = new Thread(()->  {
 			try {
 				Thread.sleep(500);
