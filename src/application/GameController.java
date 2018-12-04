@@ -63,7 +63,7 @@ public class GameController {
 		
 		this.scoreLogic = new ScoreLogic();
 		this.randomLogic = new RandomLogic();
-		this.speed = Constants.MININTERVAL;
+		this.speed = Constants.MAXINTERVAL;
 		available = new ArrayList<Integer>();
 
 		// Add blocks to block pane
@@ -207,9 +207,13 @@ public class GameController {
 	// Reset Values
 	public void resetValues() {
 		clearBoard();
+		this.effects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+		this.feverEffect.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 		this.speed = Constants.MAXINTERVAL;
 		this.scoreLabel.setText(Integer.toString(this.scoreLogic.resetScore()));
 		this.fever = false;
+		this.bombs = 0;
+		this.bombPane.drawBombPane(0);
 	}
 	
 	// Game Over
@@ -224,6 +228,8 @@ public class GameController {
 		if (available.size() <= 0) return;
 		
 		int itemsAtOnce = randomLogic.randomItemsAtOnce(this.speed);
+		if (itemsAtOnce > available.size()) itemsAtOnce = available.size();
+		
 		for (int i = 0; i < itemsAtOnce; i++) {
 			int position = randomLogic.randomPosition(available);
 			Block block = (Block) blockPane.getTiles().getChildren().get(available.get(position));
@@ -232,22 +238,22 @@ public class GameController {
 			int randomItem = randomLogic.randomItem(available, this.speed, this.fever);
 			Item item;
 			switch (randomItem) {
-				case 0: item = new NormalEnemy();
-				case 1: item = new StrongEnemy();
-				case 2: item = new Bomb(this);
+				case 0: item = new NormalEnemy(); break;
+				case 1: item = new StrongEnemy(); break;
+				case 2: item = new Bomb(this); break;
 				case 3: item = new PowerUp(Resources.FEVERSTAR) {
 					public void usePowerUp() {
 						startFever();
 					}
-				};
+				}; break;
 				case 4: item = new PowerUp(Resources.DYNAMITE) {
 					public void usePowerUp() {
-						killAdjacentEnemies(position);
+						killAdjacentEnemies(block.getIndex());
 					}
-				};
+				}; break;
 				default: item = new NormalEnemy();
 			}
-			if (item instanceof PowerUp) {
+			if (randomItem == 2 || randomItem == 3) {
 				block.setCurrentItemWithTimer(item, 3000);
 			} else {
 				block.setCurrentItem(item);
@@ -302,7 +308,6 @@ public class GameController {
 	}
 	public void killAdjacentEnemies(int position) {
 		int[] kill;
-		
 		switch (position%3) {
 			case 0: kill = new int[]{position-3, position+1, position+3}; break;
 			case 1: kill = new int[]{position-3, position-1, position+1, position+3}; break;
