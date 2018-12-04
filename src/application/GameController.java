@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import component.Block;
 import component.BlockPane;
 import component.BombPane;
+import component.ScoreLabel;
 import item.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -23,7 +23,7 @@ public class GameController {
 	
 	// Components
 	private BlockPane blockPane;
-	private Label scoreLabel;
+	private ScoreLabel scoreLabel;
 	private BombPane bombPane;
 	
 	// Logic
@@ -44,7 +44,7 @@ public class GameController {
 	
 	public GameController(
 			BlockPane blockPane, 
-			Label scoreLabel, 
+			ScoreLabel scoreLabel, 
 			BombPane bombPane,
 			GraphicsContext effects,
 			GraphicsContext feverEffects

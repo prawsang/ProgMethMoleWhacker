@@ -4,18 +4,15 @@ import component.BlockPane;
 import component.BombPane;
 import component.SplashScreen;
 import component.GameOver;
+import component.ScoreLabel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 
 
 public class Main extends Application {
@@ -28,7 +25,7 @@ public class Main extends Application {
 	
 	// Components
 	private BlockPane blockPane;
-	private Label scoreLabel;
+	private ScoreLabel scoreLabel;
 	private BombPane bombPane;
 	
 	// Controller
@@ -69,12 +66,7 @@ public class Main extends Application {
 		BorderPane labels = new BorderPane();
 		gc.drawImage(new Image(Resources.SCORE), (Constants.WIDTH-207)/2, 0, 207, 88);
 		
-		scoreLabel = new Label("0");
-		scoreLabel.setPadding(new Insets(28,0,0,0));
-		scoreLabel.setPrefWidth(Constants.WIDTH);
-		scoreLabel.setAlignment(Pos.CENTER);
-		scoreLabel.setTextFill(Color.web("white"));
-		scoreLabel.setStyle("-fx-font-family: 'Titan One', cursive; -fx-font-size: 30px");
+		scoreLabel = new ScoreLabel("0");
 		labels.setTop(scoreLabel);
 		
 		bombPane = new BombPane();
