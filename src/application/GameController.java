@@ -1,12 +1,16 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import component.Block;
 import component.BlockPane;
 import component.BombPane;
 import component.ScoreLabel;
+import component.HighScoreLabel;
+
 import item.*;
+
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -16,8 +20,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import logic.RandomLogic;
-import logic.ScoreLogic;
+
+import logic.*;
 
 public class GameController {
 	
@@ -25,6 +29,7 @@ public class GameController {
 	private BlockPane blockPane;
 	private ScoreLabel scoreLabel;
 	private BombPane bombPane;
+	private HighScoreLabel highScoreLabel;
 	
 	// Logic
 	private ScoreLogic scoreLogic;
@@ -46,6 +51,7 @@ public class GameController {
 			BlockPane blockPane, 
 			ScoreLabel scoreLabel, 
 			BombPane bombPane,
+			HighScoreLabel highScoreLabel,
 			GraphicsContext effects,
 			GraphicsContext feverEffects
 	) {
@@ -53,6 +59,7 @@ public class GameController {
 		
 		this.bombPane = bombPane;
 		this.blockPane = blockPane;
+		this.highScoreLabel = highScoreLabel;
 		
 		this.effects = effects;
 		
@@ -221,6 +228,12 @@ public class GameController {
 		this.running = false;
 		this.fever = false;
 		Main.showGameOver(scoreLogic.getScore());
+		try {
+			HighScoreLogic.writeHighScore(scoreLogic.getScore());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		highScoreLabel.setHighScoreText(HighScoreLogic.getHighScore());
 	}
 	
 	// Random
