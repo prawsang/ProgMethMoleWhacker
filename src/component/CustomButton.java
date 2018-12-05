@@ -17,7 +17,7 @@ public class CustomButton extends Button {
 		setText(text);
 		setStyle(style(color));
 		setPadding(new Insets(10,15,10,15));
-		if (color == 0) setTextFill(color != 0 ? Color.web(Constants.ORANGE) : Color.WHITE);
+		setTextFill(color != 0 ? Color.web(Constants.ORANGE) : Color.WHITE);
 	}
 	
 	private String style(int color) {

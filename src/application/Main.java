@@ -1,10 +1,13 @@
 package application;
 import javafx.stage.Stage;
+import view.GameOver;
+import view.SplashScreen;
+
 import component.BlockPane;
 import component.BombPane;
-import component.SplashScreen;
-import component.GameOver;
 import component.ScoreLabel;
+import component.HighScoreLabel;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -27,6 +30,7 @@ public class Main extends Application {
 	private BlockPane blockPane;
 	private ScoreLabel scoreLabel;
 	private BombPane bombPane;
+	private HighScoreLabel highScoreLabel;
 	
 	// Controller
 	GameController gameController;
@@ -75,6 +79,11 @@ public class Main extends Application {
 		labels.setMouseTransparent(true);
 		root.getChildren().add(labels);	
 		
+		// High score
+		highScoreLabel = new HighScoreLabel();
+		highScoreLabel.setMouseTransparent(true);
+		root.getChildren().add(highScoreLabel);
+		
 		// Splash Screen
 		splashScreen = new SplashScreen();
 		root.getChildren().add(splashScreen);
@@ -89,6 +98,7 @@ public class Main extends Application {
 				blockPane, 
 				scoreLabel, 
 				bombPane,
+				highScoreLabel,
 				effects.getGraphicsContext2D(), 
 				feverEffects.getGraphicsContext2D()
 			);
