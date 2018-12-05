@@ -25,4 +25,6 @@ public class Resources {
 	public static final String PLAY = ClassLoader.getSystemResource("images/play.png").toString();
 	public static final String PAUSE = ClassLoader.getSystemResource("images/pause.png").toString();
 	
+	public static final String SONG = ClassLoader.getSystemResource("audio/song.m4a").toString();
+	
 }
