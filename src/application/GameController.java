@@ -189,7 +189,7 @@ public class GameController {
 		Thread speedThread = new Thread(() -> {
 			while(true) {
 				try {
-					Thread.sleep(15000);
+					Thread.sleep(10000);
 					if (this.speed > Constants.MININTERVAL) {
 						this.speed -= Constants.INTERVALSTEP;
 					}

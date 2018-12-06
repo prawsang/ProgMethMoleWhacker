@@ -23,6 +23,9 @@ public class CustomButton extends Button {
 	private String style(int color) {
 		return "-fx-background-color: " + (color == 0 ? Constants.ORANGE : "white") + ";"
 				+ "-fx-font-family: 'Titan One', cursive;"
-				+ "-fx-font-size: 16px;";
+				+ "-fx-font-size: 16px;"
+				+ "-fx-background-radius: 5px;"
+				+ "-fx-border-radius: 5px;"
+				+ "-fx-cursor: hand";
 	}
 }
