@@ -83,7 +83,7 @@ public class GameController {
 			
 			// Hit effects
 			block.setOnMousePressed((e) -> {
-				if (block.getCurrentItem() instanceof Enemy) {	
+				if (block.getCurrentItem() instanceof Enemy && !block.isEmpty()) {	
 					effects.drawImage(
 							hit, 
 							e.getSceneX()- hit.getWidth()/4, 
@@ -177,9 +177,10 @@ public class GameController {
 			while(true) {
 				try {
 					Thread.sleep(15000);
-					if (this.speed > Constants.MAXINTERVAL) {
+					if (this.speed > Constants.MININTERVAL) {
 						this.speed -= Constants.INTERVALSTEP;
 					}
+					System.out.print(this.speed);
 					if (this.speed == Constants.MININTERVAL) break;
 					if (!this.running) break;
 				} catch (Exception e) {
