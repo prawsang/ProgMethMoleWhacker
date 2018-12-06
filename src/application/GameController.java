@@ -140,8 +140,6 @@ public class GameController {
 		
 		@Override
 		public void handle(MouseEvent arg0) {
-			System.out.println(block.getIndex());
-			System.out.println(block.isEmpty());
 			if (block.isEmpty() || !running) return;
 			Item item = this.block.getCurrentItem();
 			if (item instanceof Enemy) {
@@ -150,11 +148,12 @@ public class GameController {
 				if (!e.takeDamage() || fever) {
 					scoreLabel.setText(Integer.toString(scoreLogic.addScore(100)));
 					block.clearNode();
-					available.add(block.getIndex());
-					
+					available.add(block.getIndex());	
 					AudioClip getHitSound = new AudioClip(Resources.GETHIT);
 					getHitSound.play();
 				}
+				AudioClip hitSound = new AudioClip(Resources.HITSOUND);
+				hitSound.play();
 			}
 			if (item instanceof PowerUp) {
 				// Collect or use power up
@@ -188,7 +187,6 @@ public class GameController {
 					if (this.speed > Constants.MININTERVAL) {
 						this.speed -= Constants.INTERVALSTEP;
 					}
-					System.out.print(this.speed);
 					if (this.speed == Constants.MININTERVAL) break;
 					if (!this.running) break;
 				} catch (Exception e) {
@@ -271,6 +269,8 @@ public class GameController {
 				case 4: item = new PowerUp(Resources.DYNAMITE) {
 					public void usePowerUp() {
 						killAdjacentEnemies(block.getIndex());
+						AudioClip useBombSound = new AudioClip(Resources.BOMBSOUND);
+						useBombSound.play();
 					}
 				}; break;
 				default: item = new NormalEnemy();

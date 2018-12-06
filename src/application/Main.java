@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 
 
 public class Main extends Application {
@@ -92,6 +93,10 @@ public class Main extends Application {
 		// Game Over
 		gameOver = new GameOver(0);
 		setUpGameOverEvents();
+		
+		// Main Sound
+		AudioClip mainSound = new AudioClip(Resources.SONG);
+		mainSound.play();
 		
 		// GameController
 		gameController = new GameController(
