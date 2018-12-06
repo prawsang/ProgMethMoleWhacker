@@ -140,6 +140,8 @@ public class GameController {
 		
 		@Override
 		public void handle(MouseEvent arg0) {
+			System.out.println(block.getIndex());
+			System.out.println(block.isEmpty());
 			if (block.isEmpty() || !running) return;
 			Item item = this.block.getCurrentItem();
 			if (item instanceof Enemy) {
