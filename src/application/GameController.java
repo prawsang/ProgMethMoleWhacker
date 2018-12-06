@@ -159,6 +159,8 @@ public class GameController {
 				// Collect or use power up
 				if (item instanceof Collectible) {
 					Collectible c = (Collectible) item;
+					AudioClip collectItem  = new AudioClip(Resources.COLLECTBOMB);
+					collectItem.play();
 					if (item instanceof Bomb) {
 						if (getBombs() < 3) {
 							c.collect();
@@ -216,6 +218,21 @@ public class GameController {
 			}
 		});
 		t.start();
+		
+		Thread bgSound = new Thread(() -> {
+			AudioClip sound = new AudioClip(Resources.SONG);
+			while(true) {
+				try {
+					sound.play();
+					Thread.sleep(480000);
+					
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+			
+		} );
+		bgSound.start();
 	}
 	
 	// Reset Values

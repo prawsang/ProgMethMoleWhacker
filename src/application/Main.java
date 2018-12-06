@@ -94,9 +94,6 @@ public class Main extends Application {
 		gameOver = new GameOver(0);
 		setUpGameOverEvents();
 		
-		// Main Sound
-		AudioClip mainSound = new AudioClip(Resources.SONG);
-		mainSound.play();
 		
 		// GameController
 		gameController = new GameController(
