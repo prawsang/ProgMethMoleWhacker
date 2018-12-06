@@ -9,18 +9,14 @@ import component.ScoreLabel;
 import component.HighScoreLabel;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.AudioClip;
-import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 
 public class Main extends Application {
@@ -45,7 +41,7 @@ public class Main extends Application {
 		root = new StackPane();
 		
 		scene = new Scene(root);
-		scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Titan+One");
+		Font.loadFont(Main.class.getClassLoader().getResource("font/TitanOne-Regular.ttf").toExternalForm(), 10 );
 		
 		Canvas canvas = new Canvas(Constants.WIDTH,Constants.HEIGHT);
 		root.getChildren().add(canvas);

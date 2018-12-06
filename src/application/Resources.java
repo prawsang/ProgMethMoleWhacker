@@ -1,7 +1,10 @@
 package application;
 
+import java.io.InputStream;
+
 public class Resources {
 	
+	// IMAGES
 	public static final String BACKGROUND = ClassLoader.getSystemResource("images/background.png").toString();
 	public static final String FRAME = ClassLoader.getSystemResource("images/frame.png").toString();
 	public static final String SCORE = ClassLoader.getSystemResource("images/score_background.png").toString();
@@ -25,6 +28,7 @@ public class Resources {
 	public static final String PLAY = ClassLoader.getSystemResource("images/play.png").toString();
 	public static final String PAUSE = ClassLoader.getSystemResource("images/pause.png").toString();
 	
+	// SOUNDS
 	public static final String SONG = ClassLoader.getSystemResource("audio/song.m4a").toString();
 	public static final String BOMBSOUND = ClassLoader.getSystemResource("audio/bombSound.m4a").toString();
 	public static final String GETHIT = ClassLoader.getSystemResource("audio/getHit.m4a").toString();
