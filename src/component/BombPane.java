@@ -1,10 +1,14 @@
 package component;
 
 import javafx.scene.image.Image;
+import application.Constants;
 import application.Resources;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 public class BombPane extends StackPane {
 	
@@ -14,6 +18,15 @@ public class BombPane extends StackPane {
 		this.canvas = new Canvas(146,94);
 		getChildren().add(canvas);
 		setAlignment(Pos.BOTTOM_CENTER);
+		
+		//Enter to use bomb
+		Label enterToUseBomb = new Label("Press Enter to Use Bomb");
+		enterToUseBomb.setPadding(new Insets(0,0,10,0));
+		enterToUseBomb.setPrefWidth(Constants.WIDTH);
+		enterToUseBomb.setAlignment(Pos.BOTTOM_CENTER);
+		enterToUseBomb.setTextFill(Color.web("white"));
+		enterToUseBomb.setStyle("-fx-font-family: 'Titan One', cursive; -fx-font-size: 12px");
+		getChildren().add(enterToUseBomb);
 	}
 	
 	public void drawBombPane(int bombs) {

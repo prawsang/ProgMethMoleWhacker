@@ -47,6 +47,10 @@ public class GameController {
 	private Bomb bomb;
 	private boolean fever;
 	
+	// BGM
+	private Thread bgSoundThread;
+	private AudioClip sound = new AudioClip(Resources.SONG);
+	
 	public GameController(
 			BlockPane blockPane, 
 			ScoreLabel scoreLabel, 
@@ -219,20 +223,20 @@ public class GameController {
 		});
 		t.start();
 		
-		Thread bgSound = new Thread(() -> {
-			AudioClip sound = new AudioClip(Resources.SONG);
-			while(true) {
+		bgSoundThread = new Thread(() -> {
 				try {
-					sound.play();
-					Thread.sleep(480000);
+					while(true) {
+						sound.play();
+						Thread.sleep(480000);
 					
-				}catch (Exception e){
+					}
+				} catch (InterruptedException e){
+					sound.stop();
 					e.printStackTrace();
 				}
-			}
 			
 		} );
-		bgSound.start();
+		bgSoundThread.start();
 	}
 	
 	// Reset Values
@@ -251,6 +255,7 @@ public class GameController {
 	private void gameOver() {
 		this.running = false;
 		this.fever = false;
+		bgSoundThread.interrupt();
 		Main.showGameOver(scoreLogic.getScore());
 		try {
 			HighScoreLogic.writeHighScore(scoreLogic.getScore());
