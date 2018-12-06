@@ -26,8 +26,8 @@ public class Resources {
 	public static final String PAUSE = ClassLoader.getSystemResource("images/pause.png").toString();
 	
 	public static final String SONG = ClassLoader.getSystemResource("audio/song.m4a").toString();
-	public static final String BOMBSOUND = ClassLoader.getSystemResource("audio/bombSound").toString();
-	public static final String GETHIT = ClassLoader.getSystemResource("audio/getHit").toString();
-	public static final String COLLECTBOMB = ClassLoader.getSystemResource("audio/collectBomb").toString();
-	public static final String HITSOUND = ClassLoader.getSystemResource("audio/hit").toString();
+	public static final String BOMBSOUND = ClassLoader.getSystemResource("audio/bombSound.m4a").toString();
+	public static final String GETHIT = ClassLoader.getSystemResource("audio/getHit.m4a").toString();
+	public static final String COLLECTBOMB = ClassLoader.getSystemResource("audio/collectBomb.m4a").toString();
+	public static final String HITSOUND = ClassLoader.getSystemResource("audio/hit.m4a").toString();
 }
