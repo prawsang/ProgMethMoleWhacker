@@ -26,5 +26,6 @@ public class Resources {
 	public static final String PAUSE = ClassLoader.getSystemResource("images/pause.png").toString();
 	
 	public static final String SONG = ClassLoader.getSystemResource("audio/song.m4a").toString();
+	public static final String BOMBSOUND = ClassLoader.getSystemResource("audio/bombSound").toString();
 	
 }
