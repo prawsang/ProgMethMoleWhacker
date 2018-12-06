@@ -21,7 +21,7 @@ public class BlockPane extends StackPane {
 		tiles.setTileAlignment(Pos.CENTER);
 		tiles.setHgap(Constants.BLOCKSPACING);
 		tiles.setVgap(Constants.BLOCKSPACING);
-		tiles.setPadding(new Insets(100,53,0,53));
+		tiles.setPadding(new Insets(100,0,0,53));
 		
 		canvas = new Canvas(Constants.BLOCKSIZE*3 + Constants.BLOCKSPACING*2, Constants.BLOCKSIZE*4 + Constants.BLOCKSPACING*3);
 		canvas.setStyle("-fx-background-color: red");

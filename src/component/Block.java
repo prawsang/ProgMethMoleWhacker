@@ -19,7 +19,7 @@ public class Block extends StackPane {
 		
 		setPrefWidth(Constants.BLOCKSIZE);
 		setPrefHeight(Constants.BLOCKSIZE);
-//		setStyle("-fx-background-color: #ddd; -fx-opacity: 0.5;");
+		setStyle("-fx-background-color: #ddd; -fx-opacity: 0.5;");
 	}
 	
 	public void setCurrentItem(Item i) {

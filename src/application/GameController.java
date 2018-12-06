@@ -20,7 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-
+import javafx.scene.media.AudioClip;
 import logic.*;
 
 public class GameController {
@@ -114,6 +114,9 @@ public class GameController {
 					bomb.usePowerUp();
 					bombPane.drawBombPane(getBombs());
 					
+					AudioClip useBombSound = new AudioClip(Resources.BOMBSOUND);
+					useBombSound.play();
+					
 					Image boom = new Image(Resources.BIGBOOM);
 					effects.drawImage(
 							boom, 
@@ -137,6 +140,8 @@ public class GameController {
 		
 		@Override
 		public void handle(MouseEvent arg0) {
+			System.out.println(block.getIndex());
+			System.out.println(block.isEmpty());
 			if (block.isEmpty() || !running) return;
 			Item item = this.block.getCurrentItem();
 			if (item instanceof Enemy) {
@@ -146,6 +151,9 @@ public class GameController {
 					scoreLabel.setText(Integer.toString(scoreLogic.addScore(100)));
 					block.clearNode();
 					available.add(block.getIndex());
+					
+					AudioClip getHitSound = new AudioClip(Resources.GETHIT);
+					getHitSound.play();
 				}
 			}
 			if (item instanceof PowerUp) {
