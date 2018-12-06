@@ -1,7 +1,5 @@
 package application;
 
-import java.io.InputStream;
-
 public class Resources {
 	
 	// IMAGES
