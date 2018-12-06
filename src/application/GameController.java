@@ -47,6 +47,10 @@ public class GameController {
 	private Bomb bomb;
 	private boolean fever;
 	
+	// BGM
+	private Thread bgSoundThread;
+	private AudioClip sound = new AudioClip(Resources.SONG);
+	
 	public GameController(
 			BlockPane blockPane, 
 			ScoreLabel scoreLabel, 
@@ -159,6 +163,8 @@ public class GameController {
 				// Collect or use power up
 				if (item instanceof Collectible) {
 					Collectible c = (Collectible) item;
+					AudioClip collectItem  = new AudioClip(Resources.COLLECTBOMB);
+					collectItem.play();
 					if (item instanceof Bomb) {
 						if (getBombs() < 3) {
 							c.collect();
@@ -216,6 +222,21 @@ public class GameController {
 			}
 		});
 		t.start();
+		
+		bgSoundThread = new Thread(() -> {
+				try {
+					while(true) {
+						sound.play();
+						Thread.sleep(480000);
+					
+					}
+				} catch (InterruptedException e){
+					sound.stop();
+					e.printStackTrace();
+				}
+			
+		} );
+		bgSoundThread.start();
 	}
 	
 	// Reset Values
@@ -234,6 +255,7 @@ public class GameController {
 	private void gameOver() {
 		this.running = false;
 		this.fever = false;
+		bgSoundThread.interrupt();
 		Main.showGameOver(scoreLogic.getScore());
 		try {
 			HighScoreLogic.writeHighScore(scoreLogic.getScore());

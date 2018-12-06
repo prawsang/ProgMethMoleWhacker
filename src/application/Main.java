@@ -9,14 +9,18 @@ import component.ScoreLabel;
 import component.HighScoreLabel;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
 
 
 public class Main extends Application {
@@ -80,6 +84,7 @@ public class Main extends Application {
 		labels.setMouseTransparent(true);
 		root.getChildren().add(labels);	
 		
+		
 		// High score
 		highScoreLabel = new HighScoreLabel();
 		highScoreLabel.setMouseTransparent(true);
@@ -93,10 +98,6 @@ public class Main extends Application {
 		// Game Over
 		gameOver = new GameOver(0);
 		setUpGameOverEvents();
-		
-		// Main Sound
-		AudioClip mainSound = new AudioClip(Resources.SONG);
-		mainSound.play();
 		
 		// GameController
 		gameController = new GameController(
