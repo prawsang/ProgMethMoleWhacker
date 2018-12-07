@@ -23,9 +23,6 @@ public class Resources {
 	public static final String BOOM = ClassLoader.getSystemResource("images/boom.png").toString();
 	public static final String HIT = ClassLoader.getSystemResource("images/hit.png").toString();
 	
-	public static final String PLAY = ClassLoader.getSystemResource("images/play.png").toString();
-	public static final String PAUSE = ClassLoader.getSystemResource("images/pause.png").toString();
-	
 	// SOUNDS
 	public static final String SONG = ClassLoader.getSystemResource("audio/song.m4a").toString();
 	public static final String BOMBSOUND = ClassLoader.getSystemResource("audio/bombSound.m4a").toString();

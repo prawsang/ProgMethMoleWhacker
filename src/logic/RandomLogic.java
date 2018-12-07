@@ -3,6 +3,7 @@ package logic;
 import java.util.ArrayList;
 import java.util.Random;
 import application.Constants;
+import item.*;
 
 public class RandomLogic {
 	
@@ -34,31 +35,26 @@ public class RandomLogic {
 		return itemsAtOnce;
 	}
 	
-	public int randomItem(ArrayList<Integer> available, int speed, boolean fever) {
+	public Item randomItem(int speed, int position, boolean fever) {
 		int random = randomProb[new Random().nextInt(randomProb.length)];
 		if (speed >= Constants.MAXINTERVAL - Constants.INTERVALSTEP*2) {
-			// Normal Enemy
-			return 0;
+			return new NormalEnemy();
 		} else {		
 			if (random <= 6) {
-				return 0;
+				return new NormalEnemy();
 			} else {
 				int item = randomProb[new Random().nextInt(randomProb.length)];
 				if (item <= 5) {
-					// Strong Enemy
-					return 1;
+					return new StrongEnemy();
 				}
 				else if (item == 6) {
-					// Bomb
-					return 2;
+					return new Bomb();
 				}
 				else if (item == 7 && !fever) {
-					// Fever
-					return 3;
+					return new FeverStar();
 				}
 				else {
-					// Kill Adjacent Enemies (Dynamite)
-					return 4;
+					return new Dynamite(position);
 				}
 			}
 		}

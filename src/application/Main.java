@@ -41,8 +41,9 @@ public class Main extends Application {
 	public static HighScoreLabel highScoreLabel;
 	
 	// Effects
-	public static Canvas effects;
+	public static Canvas bombEffects;
 	public static Canvas feverEffects;
+	public static Canvas hitEffects;
 	
 	// Controller
 	public static GameController gameController;
@@ -54,6 +55,7 @@ public class Main extends Application {
 		scene = new Scene(root);
 		Font.loadFont(Main.class.getClassLoader().getResource("font/TitanOne-Regular.ttf").toExternalForm(), 10 );
 		
+		// Set Up Main Game Scene
 		Canvas canvas = new Canvas(Constants.WIDTH,Constants.HEIGHT);
 		root.getChildren().add(canvas);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -73,10 +75,15 @@ public class Main extends Application {
 		feverEffects.setMouseTransparent(true);
 		root.getChildren().add(feverEffects);
 		
-		// Effects
-		effects = new Canvas(Constants.WIDTH, Constants.HEIGHT);
-		effects.setMouseTransparent(true);
-		root.getChildren().add(effects);
+		// Bomb Effects
+		bombEffects = new Canvas(Constants.WIDTH, Constants.HEIGHT);
+		bombEffects.setMouseTransparent(true);
+		root.getChildren().add(bombEffects);
+		
+		// Hit Effects
+		hitEffects = new Canvas(Constants.WIDTH, Constants.HEIGHT);
+		hitEffects.setMouseTransparent(true);
+		root.getChildren().add(hitEffects);
 		
 		// Labels
 		BorderPane labels = new BorderPane();
@@ -94,6 +101,7 @@ public class Main extends Application {
 		highScoreLabel.setMouseTransparent(true);
 		root.getChildren().add(highScoreLabel);
 		
+		// Set Up Other Scenes
 		// Splash Screen
 		splashScreen = new SplashScreen();
 		root.getChildren().add(splashScreen);
@@ -103,11 +111,11 @@ public class Main extends Application {
 		gameOver = new GameOver(0);
 		setUpGameOverEvents();
 		
-		// GameController
+		// Set Up Game Controller
 		gameController = new GameController();
 		gameController.setUpEnterEventHandler(scene);
 
-		// TODO Set up the stage
+		// Set up the stage
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Mole Whacker");
 		primaryStage.setResizable(false);

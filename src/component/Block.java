@@ -17,7 +17,6 @@ public class Block extends StackPane {
 		
 		setPrefWidth(Constants.BLOCKSIZE);
 		setPrefHeight(Constants.BLOCKSIZE);
-//		setStyle("-fx-background-color: #ddd; -fx-opacity: 0.5;");
 	}
 	
 	public void setCurrentItem(Item i) throws FillOccupiedBlockException {
@@ -38,7 +37,6 @@ public class Block extends StackPane {
 					Main.gameController.addAvailable(this.index);
 				});
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		});
 		this.thread.start();
