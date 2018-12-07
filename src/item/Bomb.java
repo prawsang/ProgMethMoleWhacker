@@ -1,22 +1,19 @@
 package item;
 
-import application.GameController;
+import application.Main;
 import application.Resources;
 
 public class Bomb extends PowerUp implements Collectible  {
 	
-	private GameController gameController;
-	
-	public Bomb(GameController gameController) {
+	public Bomb() {
 		super(Resources.BOMB);
-		this.gameController = gameController;
 	}
 	
 	public void collect() {
-		this.gameController.addBomb();
+		Main.gameController.addBomb();
 	}
 	public void usePowerUp() {
-		this.gameController.clearBoard();
-		this.gameController.deleteBomb();
+		Main.gameController.clearBoard();
+		Main.gameController.deleteBomb();
 	}
 }

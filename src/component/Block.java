@@ -1,5 +1,5 @@
 package component;
-import application.GameController;
+import application.Main;
 import application.Constants;
 import item.Item;
 import javafx.application.Platform;
@@ -11,11 +11,8 @@ public class Block extends StackPane {
 	private final int index;
 	private Thread thread;
 	
-	private BlockPane blockPane;
-	
-	public Block(int index, BlockPane blockPane) {
+	public Block(int index) {
 		this.index = index;
-		this.blockPane = blockPane;
 		
 		setPrefWidth(Constants.BLOCKSIZE);
 		setPrefHeight(Constants.BLOCKSIZE);
@@ -25,7 +22,7 @@ public class Block extends StackPane {
 	public void setCurrentItem(Item i) {
 		this.currentItem = i;
 		this.clearNode();
-		this.blockPane.drawGC(index, currentItem.getImage());
+		Main.blockPane.drawGC(index, currentItem.getImage());
 		this.getChildren().add(i);
 	}
 	public void setCurrentItemWithTimer(Item i, int duration) {
@@ -35,7 +32,7 @@ public class Block extends StackPane {
 				Thread.sleep(duration);
 				Platform.runLater(()->{
 					this.clearNode();
-					GameController.available.add(this.index);
+					Main.gameController.addAvailable(this.index);
 				});
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -58,8 +55,10 @@ public class Block extends StackPane {
 	}
 	
 	public void clearNode() {
-		this.blockPane.clearGC(index);
-		this.getChildren().clear();
+		Main.blockPane.clearGC(index);
+		if (!isEmpty()) {
+			this.getChildren().remove(0);
+		}
 	}
 	public int getIndex() {
 		return index;

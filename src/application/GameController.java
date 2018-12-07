@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import component.Block;
-import component.BlockPane;
-import component.BombPane;
-import component.ScoreLabel;
-import component.HighScoreLabel;
 
 import item.*;
 
@@ -25,83 +21,52 @@ import logic.*;
 
 public class GameController {
 	
-	// Components
-	private BlockPane blockPane;
-	private ScoreLabel scoreLabel;
-	private BombPane bombPane;
-	private HighScoreLabel highScoreLabel;
-	
 	// Logic
 	private ScoreLogic scoreLogic;
 	private RandomLogic randomLogic;
 	private boolean running = false;
 	private int speed;
-	public static ArrayList<Integer> available;
+	private ArrayList<Integer> available;
 	
 	// Effects
 	private GraphicsContext effects;
-	private GraphicsContext feverEffect;
+	private GraphicsContext feverEffects;
 	
 	//PowerUps
 	private int bombs;
-	private Bomb bomb;
+	private static Bomb bomb;
 	private boolean fever;
 	
 	// BGM
 	private Thread bgSoundThread;
 	private AudioClip sound = new AudioClip(Resources.SONG);
 	
-	public GameController(
-			BlockPane blockPane, 
-			ScoreLabel scoreLabel, 
-			BombPane bombPane,
-			HighScoreLabel highScoreLabel,
-			GraphicsContext effects,
-			GraphicsContext feverEffects
-	) {
-		this.scoreLabel = scoreLabel;
+	public GameController() {
 		
-		this.bombPane = bombPane;
-		this.blockPane = blockPane;
-		this.highScoreLabel = highScoreLabel;
+		this.effects = Main.effects.getGraphicsContext2D();
+		this.feverEffects = Main.feverEffects.getGraphicsContext2D();
 		
-		this.effects = effects;
-		
+		bomb = new Bomb();
 		this.bombs = 0;
-		this.bomb = new Bomb(this);
 		this.fever = false;
-		this.feverEffect = feverEffects;
 		
 		this.scoreLogic = new ScoreLogic();
 		this.randomLogic = new RandomLogic();
-		this.speed = Constants.MAXINTERVAL;
+		this.speed = Constants.MININTERVAL;
 		available = new ArrayList<Integer>();
 
 		// Add blocks to block pane
-		Image hit = new Image(Resources.HIT);
 		for (int i = 0; i < 12; i++) {
 			available.add(i);
 			
-			Block block = new Block(i, blockPane);
-			block.setOnMouseClicked(new BlockEventHandler(block));
+			Block block = new Block(i);
 			
-			// Hit effects
-			block.setOnMousePressed((e) -> {
-				if (block.getCurrentItem() instanceof Enemy && !block.isEmpty()) {	
-					effects.drawImage(
-							hit, 
-							e.getSceneX()- hit.getWidth()/4, 
-							e.getSceneY()-hit.getHeight()/4, 
-							hit.getWidth()/2, 
-							hit.getHeight()/2
-						);
-				}
-			});
+			block.setOnMousePressed(new BlockEventHandler(block));
 			block.setOnMouseReleased((e) -> {
 				effects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 			});
 			
-			this.blockPane.getTiles().getChildren().add(block);
+			Main.blockPane.getTiles().getChildren().add(block);
 		}
 		
 	}
@@ -116,7 +81,7 @@ public class GameController {
 			if (e.getCode().equals(KeyCode.ENTER)){
 				if (bombs > 0) {
 					bomb.usePowerUp();
-					bombPane.drawBombPane(getBombs());
+					Main.bombPane.drawBombPane(getBombs());
 					
 					AudioClip useBombSound = new AudioClip(Resources.BOMBSOUND);
 					useBombSound.play();
@@ -150,14 +115,26 @@ public class GameController {
 				// Take damage
 				Enemy e = (Enemy) item;
 				if (!e.takeDamage() || fever) {
-					scoreLabel.setText(Integer.toString(scoreLogic.addScore(100)));
+					Main.scorePane.label.setText(Integer.toString(scoreLogic.addScore(100)));
 					block.clearNode();
-					available.add(block.getIndex());	
+					available.add(block.getIndex());
+					// Die sound
 					AudioClip getHitSound = new AudioClip(Resources.GETHIT);
 					getHitSound.play();
 				}
+				// Hit sound
 				AudioClip hitSound = new AudioClip(Resources.HITSOUND);
 				hitSound.play();
+				
+				// Hit effects
+				Image hit = new Image(Resources.HIT);
+				effects.drawImage(
+						hit, 
+						arg0.getSceneX()- hit.getWidth()/4, 
+						arg0.getSceneY()-hit.getHeight()/4, 
+						hit.getWidth()/2, 
+						hit.getHeight()/2
+					);
 			}
 			if (item instanceof PowerUp) {
 				// Collect or use power up
@@ -168,7 +145,7 @@ public class GameController {
 					if (item instanceof Bomb) {
 						if (getBombs() < 3) {
 							c.collect();
-							bombPane.drawBombPane(getBombs());
+							Main.bombPane.drawBombPane(getBombs());
 						} else return;
 					}
 				} else {
@@ -243,12 +220,12 @@ public class GameController {
 	public void resetValues() {
 		clearBoard();
 		this.effects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
-		this.feverEffect.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+		this.feverEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 		this.speed = Constants.MAXINTERVAL;
-		this.scoreLabel.setText(Integer.toString(this.scoreLogic.resetScore()));
+		Main.scorePane.label.setText(Integer.toString(this.scoreLogic.resetScore()));
 		this.fever = false;
 		this.bombs = 0;
-		this.bombPane.drawBombPane(0);
+		Main.bombPane.drawBombPane(0);
 	}
 	
 	// Game Over
@@ -262,7 +239,7 @@ public class GameController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		highScoreLabel.setHighScoreText(HighScoreLogic.getHighScore());
+		Main.highScoreLabel.setHighScoreText(HighScoreLogic.getHighScore());
 	}
 	
 	// Random
@@ -274,7 +251,7 @@ public class GameController {
 		
 		for (int i = 0; i < itemsAtOnce; i++) {
 			int position = randomLogic.randomPosition(available);
-			Block block = (Block) blockPane.getTiles().getChildren().get(available.get(position));
+			Block block = (Block) Main.blockPane.getTiles().getChildren().get(available.get(position));
 			available.remove(position);
 			
 			int randomItem = randomLogic.randomItem(available, this.speed, this.fever);
@@ -282,19 +259,9 @@ public class GameController {
 			switch (randomItem) {
 				case 0: item = new NormalEnemy(); break;
 				case 1: item = new StrongEnemy(); break;
-				case 2: item = new Bomb(this); break;
-				case 3: item = new PowerUp(Resources.FEVERSTAR) {
-					public void usePowerUp() {
-						startFever();
-					}
-				}; break;
-				case 4: item = new PowerUp(Resources.DYNAMITE) {
-					public void usePowerUp() {
-						killAdjacentEnemies(block.getIndex());
-						AudioClip useBombSound = new AudioClip(Resources.BOMBSOUND);
-						useBombSound.play();
-					}
-				}; break;
+				case 2: item = new Bomb(); break;
+				case 3: item = new FeverStar(); break;
+				case 4: item = new Dynamite(block.getIndex()); break;
 				default: item = new NormalEnemy();
 			}
 			if (randomItem == 2 || randomItem == 3) {
@@ -303,6 +270,13 @@ public class GameController {
 				block.setCurrentItem(item);
 			}
 		}
+	}
+	// Add/Remove available
+	public void addAvailable(int index) {
+		if (available.size() < Constants.MAXBLOCK) available.add(index);
+	}
+	public void removeAvailable(int index) {
+		if (available.size() > index) available.remove(index);
 	}
 	
 	// Power Up Storage
@@ -322,7 +296,7 @@ public class GameController {
 	
 	// Power Ups
 	public void clearBoard() {
-		for (Node node : this.blockPane.getTiles().getChildren()) {
+		for (Node node : Main.blockPane.getTiles().getChildren()) {
 			Block block = (Block) node;
 			if (!block.isEmpty()) {
 				if (block.getCurrentItem() instanceof Enemy) {
@@ -332,18 +306,22 @@ public class GameController {
 				available.add(block.getIndex());
 			}
 		}
-		scoreLabel.setText(Integer.toString(this.scoreLogic.getScore()));
+		Main.scorePane.label.setText(Integer.toString(this.scoreLogic.getScore()));
 	}
 	public void startFever() {
 		this.scoreLogic.setScoreMultiplier(3);
 		this.fever = true;
-		this.feverEffect.drawImage(new Image(Resources.FEVER), 0, 0, Constants.WIDTH, Constants.HEIGHT);
+		this.feverEffects.drawImage(new Image(Resources.FEVER), 0, 0, Constants.WIDTH, Constants.HEIGHT);
+		
+		AudioClip collectItem  = new AudioClip(Resources.COLLECTBOMB);
+		collectItem.play();
+		
 		Thread t = new Thread(() -> {
 			try {
 				Thread.sleep(10000);
 				this.scoreLogic.setScoreMultiplier(1);
 				this.fever = false;
-				this.feverEffect.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+				this.feverEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -360,7 +338,7 @@ public class GameController {
 		}
 		for (int k : kill) {
 			if (k >=0 && k<12) {
-				Block block =  (Block) this.blockPane.getTiles().getChildren().get(k);
+				Block block =  (Block) Main.blockPane.getTiles().getChildren().get(k);
 				if (!block.isEmpty()) {
 					block.clearNode();
 					if (block.getCurrentItem() instanceof Enemy) {
@@ -371,8 +349,8 @@ public class GameController {
 					available.add(k);
 					effects.drawImage(
 							new Image(Resources.BOOM), 
-							blockPane.getX(k) + 53, 
-							blockPane.getY(k) + 110, 
+							Main.blockPane.getX(k) + 53, 
+							Main.blockPane.getY(k) + 110, 
 							Constants.BLOCKSIZE, 
 							Constants.BLOCKSIZE
 						);
@@ -381,15 +359,15 @@ public class GameController {
 		}
 		effects.drawImage(
 				new Image(Resources.BOOM), 
-				blockPane.getX(position) + 53, 
-				blockPane.getY(position) + 110, 
+				Main.blockPane.getX(position) + 53, 
+				Main.blockPane.getY(position) + 110, 
 				Constants.BLOCKSIZE, 
 				Constants.BLOCKSIZE
 			);
 		startEffectsTimer();
 	}
 	
-	// Effects
+	// Bomb Effects
 	private void startEffectsTimer() {
 		Thread t = new Thread(()->  {
 			try {
@@ -416,11 +394,11 @@ public class GameController {
 		System.out.println("========");
 	}
 	private void colorAvailable() {
-		for (Node n : blockPane.getTiles().getChildren()) {
+		for (Node n : Main.blockPane.getTiles().getChildren()) {
 			n.setStyle("-fx-background: none");
 		}
 		for (int i : available) {
-			blockPane.getChildren().get(i).setStyle("-fx-background-color: #888");
+			Main.blockPane.getChildren().get(i).setStyle("-fx-background-color: #888");
 		}
 	}
 }

@@ -18,8 +18,9 @@ public class BombPane extends StackPane {
 		this.canvas = new Canvas(146,94);
 		getChildren().add(canvas);
 		setAlignment(Pos.BOTTOM_CENTER);
+		drawBombPane(0);
 		
-		//Enter to use bomb
+		// Enter to use bomb label
 		Label enterToUseBomb = new Label("Press Enter to Use Bomb");
 		enterToUseBomb.setPadding(new Insets(0,0,10,0));
 		enterToUseBomb.setPrefWidth(Constants.WIDTH);

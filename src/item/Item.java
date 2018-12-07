@@ -9,6 +9,7 @@ public class Item extends StackPane {
 	public Item(String image) {
 		this.image = image;
 		
+		setMouseTransparent(true);
 		setPrefWidth(80);
 		setPrefHeight(80);
 	}

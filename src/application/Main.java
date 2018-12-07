@@ -5,7 +5,7 @@ import view.SplashScreen;
 
 import component.BlockPane;
 import component.BombPane;
-import component.ScoreLabel;
+import component.ScorePane;
 import component.HighScoreLabel;
 
 import javafx.application.Application;
@@ -22,19 +22,23 @@ import javafx.scene.text.Font;
 public class Main extends Application {
 	
 	// Scene
-	private Scene scene;
+	private static Scene scene;
+	private static SplashScreen splashScreen;
 	private static StackPane root;
-	private SplashScreen splashScreen;
 	private static GameOver gameOver;
 	
 	// Components
-	private BlockPane blockPane;
-	private ScoreLabel scoreLabel;
-	private BombPane bombPane;
-	private HighScoreLabel highScoreLabel;
+	public static BlockPane blockPane;
+	public static ScorePane scorePane;
+	public static BombPane bombPane;
+	public static HighScoreLabel highScoreLabel;
+	
+	// Effects
+	public static Canvas effects;
+	public static Canvas feverEffects;
 	
 	// Controller
-	GameController gameController;
+	public static GameController gameController;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -58,25 +62,23 @@ public class Main extends Application {
 		gc.drawImage(new Image(Resources.FRAME), 0, 0, Constants.WIDTH, Constants.HEIGHT);
 		
 		// Fever Effects
-		Canvas feverEffects = new Canvas(Constants.WIDTH, Constants.HEIGHT);
+		feverEffects = new Canvas(Constants.WIDTH, Constants.HEIGHT);
 		feverEffects.setMouseTransparent(true);
 		root.getChildren().add(feverEffects);
 		
-		// Boom
-		Canvas effects = new Canvas(Constants.WIDTH, Constants.HEIGHT);
+		// Effects
+		effects = new Canvas(Constants.WIDTH, Constants.HEIGHT);
 		effects.setMouseTransparent(true);
 		root.getChildren().add(effects);
 		
 		// Labels
 		BorderPane labels = new BorderPane();
-		gc.drawImage(new Image(Resources.SCORE), (Constants.WIDTH-207)/2, 0, 207, 88);
-		
-		scoreLabel = new ScoreLabel("0");
-		labels.setTop(scoreLabel);
+		scorePane = new ScorePane("0");
+		labels.setTop(scorePane);
 		
 		bombPane = new BombPane();
-		bombPane.drawBombPane(0);
 		labels.setBottom(bombPane);
+		
 		labels.setMouseTransparent(true);
 		root.getChildren().add(labels);	
 		
@@ -96,14 +98,7 @@ public class Main extends Application {
 		setUpGameOverEvents();
 		
 		// GameController
-		gameController = new GameController(
-				blockPane, 
-				scoreLabel, 
-				bombPane,
-				highScoreLabel,
-				effects.getGraphicsContext2D(), 
-				feverEffects.getGraphicsContext2D()
-			);
+		gameController = new GameController();
 		gameController.setUpEnterEventHandler(scene);
 
 		// TODO Set up the stage
@@ -116,7 +111,7 @@ public class Main extends Application {
 	}
 	
 	// Splash Screen
-	private void setUpSplashScreenEvents() {
+	private static void setUpSplashScreenEvents() {
 		Button startButton = splashScreen.getStartButton();
 		Button exitButton = splashScreen.getExitButton();
 		
@@ -130,7 +125,7 @@ public class Main extends Application {
 	}
 	
 	// Game Over
-	private void setUpGameOverEvents() {
+	private static void setUpGameOverEvents() {
 		Button startButton = gameOver.getStartButton();
 		Button exitButton = gameOver.getExitButton();
 		
