@@ -12,6 +12,7 @@ public class SplashScreen extends VBox {
 	
 	private Button startButton;
 	private Button exitButton;
+	private Button resetButton;
 	
 	private class Title extends VBox {
 		public Title() {
@@ -43,13 +44,18 @@ public class SplashScreen extends VBox {
 		startButton = new CustomButton("Start Game");
 		exitButton = new CustomButton("Exit");
 	
+		resetButton = new CustomButton("Reset High Score",1);
+		
 		setAlignment(Pos.CENTER);
 		setSpacing(10);
-		getChildren().addAll(title, startButton, exitButton);
+		getChildren().addAll(title, startButton, resetButton, exitButton);
 	}
 	
 	public Button getStartButton() {
 		return startButton;
+	}
+	public Button getResetButton() {
+		return resetButton;
 	}
 	public Button getExitButton() {
 		return exitButton;

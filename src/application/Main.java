@@ -1,7 +1,11 @@
 package application;
 import javafx.stage.Stage;
+import logic.HighScoreLogic;
 import view.GameOver;
 import view.SplashScreen;
+
+import java.io.IOException;
+import java.util.Optional;
 
 import component.BlockPane;
 import component.BombPane;
@@ -12,7 +16,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -82,7 +89,6 @@ public class Main extends Application {
 		labels.setMouseTransparent(true);
 		root.getChildren().add(labels);	
 		
-		
 		// High score
 		highScoreLabel = new HighScoreLabel();
 		highScoreLabel.setMouseTransparent(true);
@@ -114,10 +120,28 @@ public class Main extends Application {
 	private static void setUpSplashScreenEvents() {
 		Button startButton = splashScreen.getStartButton();
 		Button exitButton = splashScreen.getExitButton();
+		Button resetButton = splashScreen.getResetButton();
 		
 		startButton.setOnAction((e) -> {
 			gameController.startGameLoop();
 			root.getChildren().remove(splashScreen);
+		});
+		resetButton.setOnAction((e) -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setContentText("Are you sure you want to reset your high score?");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				try {
+					HighScoreLogic.resetHighScore();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+				highScoreLabel.setHighScoreText(HighScoreLogic.getHighScore());
+				alert.close();
+			} else {
+			    alert.close();
+			}
 		});
 		exitButton.setOnAction((e) -> {
 			System.exit(0);

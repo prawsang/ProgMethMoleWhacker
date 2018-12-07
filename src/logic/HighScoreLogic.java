@@ -21,6 +21,13 @@ public class HighScoreLogic {
 		Files.write(path, fileContent.getBytes());
 	}
 	
+	public static void resetHighScore()throws IOException {
+		String fileContent = new String("0"); 
+		
+		Path path = Paths.get("highscore.txt");
+		Files.write(path, fileContent.getBytes());
+	}
+	
 	private static void readHighScore() throws IOException {
 		List<String> lines = Files.readAllLines(path);
 		try {
