@@ -38,7 +38,9 @@ public class GameController {
 	
 	// BGM
 	private Thread bgSoundThread;
-	private AudioClip sound = new AudioClip(Resources.SONG);
+	private AudioClip bgm;
+	private AudioClip useBombSound;
+	private AudioClip getHitSound;
 	
 	public GameController() {
 		this.bombEffects = Main.bombEffects.getGraphicsContext2D();
@@ -51,7 +53,12 @@ public class GameController {
 		
 		this.speed = Constants.MAXINTERVAL;
 		available = new ArrayList<Integer>();
-
+		
+		//Sound
+		bgm = new AudioClip(Resources.SONG);
+		useBombSound = new AudioClip(Resources.BOMBSOUND);
+		getHitSound = new AudioClip(Resources.GETHIT);
+		
 		// Add blocks to block pane
 		for (int i = 0; i < 12; i++) {
 			available.add(i);
@@ -80,7 +87,6 @@ public class GameController {
 					bomb.usePowerUp();
 					Main.bombPane.drawBombPane(getBombs());
 					
-					AudioClip useBombSound = new AudioClip(Resources.BOMBSOUND);
 					useBombSound.play();
 					
 					Image boom = new Image(Resources.BIGBOOM);
@@ -117,8 +123,8 @@ public class GameController {
 					Main.scorePane.label.setText(Integer.toString(ScoreLogic.addScore(100)));
 					block.clearNode();
 					available.add(block.getIndex());
+					
 					// Die sound
-					AudioClip getHitSound = new AudioClip(Resources.GETHIT);
 					getHitSound.play();
 				}
 				// Hit sound
@@ -205,11 +211,11 @@ public class GameController {
 		bgSoundThread = new Thread(() -> {
 				try {
 					while(true) {
-						sound.play();
+						bgm.play();
 						Thread.sleep(480000);
 					}
 				} catch (InterruptedException e){
-					sound.stop();
+					bgm.stop();
 				}
 		});
 		bgSoundThread.start();
