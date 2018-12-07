@@ -1,28 +1,24 @@
 package logic;
 
 public class ScoreLogic {
-	private int score;
-	private int scoreMultiplier;
+	private static int score;
+	private static int scoreMultiplier = 1;
 	
-	public ScoreLogic() {
-		scoreMultiplier = 1;
+	public static int addScore(int added) {
+		score += added * scoreMultiplier;
+		return score;
 	}
-	
-	public int addScore(int score) {
-		this.score += score * scoreMultiplier;
-		return this.score;
+	public static int getScore() {
+		return score;
 	}
-	public int getScore() {
-		return this.score;
-	}
-	public int getScoreMultiplier() {
+	public static int getScoreMultiplier() {
 		return scoreMultiplier;
 	}
-	public void setScoreMultiplier(int multiplier) {
+	public static void setScoreMultiplier(int multiplier) {
 		scoreMultiplier = multiplier;
 	}
-	public int resetScore() {
-		this.score = 0;
-		return this.score;
+	public static int resetScore() {
+		score = 0;
+		return score;
 	}
 }

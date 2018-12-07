@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class HighScoreLogic {
+	
 	private static Path path = Paths.get("highscore.txt");
 	private static int highscore;
 	

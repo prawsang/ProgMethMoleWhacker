@@ -9,11 +9,11 @@ public class RandomLogic {
 	
 	public static final int[] randomProb = {0,1,2,3,4,5,6,7,8};
 	
-	public int randomPosition(ArrayList<Integer> available) {
+	public static int randomPosition(ArrayList<Integer> available) {
 		return new Random().nextInt(available.size());
 	}
 	
-	public int randomItemsAtOnce(int speed) {
+	public static int randomItemsAtOnce(int speed) {
 		int itemsAtOnce = 1;
 		int random = randomProb[new Random().nextInt(randomProb.length)];
 		
@@ -35,7 +35,7 @@ public class RandomLogic {
 		return itemsAtOnce;
 	}
 	
-	public Item randomItem(int speed, int position, boolean fever) {
+	public static Item randomItem(int speed, int position, boolean fever) {
 		int random = randomProb[new Random().nextInt(randomProb.length)];
 		if (speed >= Constants.MAXINTERVAL - Constants.INTERVALSTEP*2) {
 			return new NormalEnemy();

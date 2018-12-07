@@ -24,7 +24,6 @@ public class BlockPane extends StackPane {
 		tiles.setPadding(new Insets(100,0,0,53));
 		
 		canvas = new Canvas(Constants.BLOCKSIZE*3 + Constants.BLOCKSPACING*2, Constants.BLOCKSIZE*4 + Constants.BLOCKSPACING*3);
-		canvas.setStyle("-fx-background-color: red");
 		getChildren().addAll(canvas, tiles);
 	}
 	
@@ -44,7 +43,6 @@ public class BlockPane extends StackPane {
 	}
 	
 	public void drawGC(int index, String imagePath) {
-		
 		Image img = new Image(imagePath);
 		this.getGC().drawImage(img, getX(index), getY(index), Constants.BLOCKSIZE, Constants.BLOCKSIZE);
 	}

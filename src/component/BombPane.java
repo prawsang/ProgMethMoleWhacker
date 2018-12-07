@@ -43,6 +43,4 @@ public class BombPane extends StackPane {
 		this.canvas.getGraphicsContext2D().clearRect(0, 0, img.getWidth()/2, img.getHeight()/2); 
 		this.canvas.getGraphicsContext2D().drawImage(img, 0, 0, img.getWidth()/2, img.getHeight()/2);
 	}
-	
-	
 }

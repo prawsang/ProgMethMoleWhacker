@@ -22,8 +22,6 @@ import logic.*;
 public class GameController {
 	
 	// Logic
-	private ScoreLogic scoreLogic;
-	private RandomLogic randomLogic;
 	private boolean running = false;
 	private int speed;
 	private ArrayList<Integer> available;
@@ -43,7 +41,6 @@ public class GameController {
 	private AudioClip sound = new AudioClip(Resources.SONG);
 	
 	public GameController() {
-		
 		this.bombEffects = Main.bombEffects.getGraphicsContext2D();
 		this.feverEffects = Main.feverEffects.getGraphicsContext2D();
 		this.hitEffects = Main.hitEffects.getGraphicsContext2D();
@@ -52,9 +49,7 @@ public class GameController {
 		this.bombs = 0;
 		this.fever = false;
 		
-		this.scoreLogic = new ScoreLogic();
-		this.randomLogic = new RandomLogic();
-		this.speed = Constants.MININTERVAL;
+		this.speed = Constants.MAXINTERVAL;
 		available = new ArrayList<Integer>();
 
 		// Add blocks to block pane
@@ -119,7 +114,7 @@ public class GameController {
 				// Take damage
 				Enemy e = (Enemy) item;
 				if (!e.takeDamage() || fever) {
-					Main.scorePane.label.setText(Integer.toString(scoreLogic.addScore(100)));
+					Main.scorePane.label.setText(Integer.toString(ScoreLogic.addScore(100)));
 					block.clearNode();
 					available.add(block.getIndex());
 					// Die sound
@@ -206,19 +201,17 @@ public class GameController {
 		});
 		t.start();
 		
+		// BGM
 		bgSoundThread = new Thread(() -> {
 				try {
 					while(true) {
 						sound.play();
 						Thread.sleep(480000);
-					
 					}
 				} catch (InterruptedException e){
 					sound.stop();
-					e.printStackTrace();
 				}
-			
-		} );
+		});
 		bgSoundThread.start();
 	}
 	
@@ -228,7 +221,7 @@ public class GameController {
 		this.bombEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 		this.feverEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 		this.speed = Constants.MAXINTERVAL;
-		Main.scorePane.label.setText(Integer.toString(this.scoreLogic.resetScore()));
+		Main.scorePane.label.setText(Integer.toString(ScoreLogic.resetScore()));
 		this.fever = false;
 		this.bombs = 0;
 		Main.bombPane.drawBombPane(0);
@@ -239,9 +232,9 @@ public class GameController {
 		this.running = false;
 		this.fever = false;
 		bgSoundThread.interrupt();
-		Main.showGameOver(scoreLogic.getScore());
+		Main.showGameOver(ScoreLogic.getScore());
 		try {
-			HighScoreLogic.writeHighScore(scoreLogic.getScore());
+			HighScoreLogic.writeHighScore(ScoreLogic.getScore());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -254,17 +247,17 @@ public class GameController {
 			return;
 		}
 		
-		int itemsAtOnce = randomLogic.randomItemsAtOnce(this.speed);
+		int itemsAtOnce = RandomLogic.randomItemsAtOnce(this.speed);
 		if (itemsAtOnce > available.size()) {
 			itemsAtOnce = available.size();
 		}
 		
 		for (int i = 0; i < itemsAtOnce; i++) {
-			int position = randomLogic.randomPosition(available);
+			int position = RandomLogic.randomPosition(available);
 			Block block = (Block) Main.blockPane.getTiles().getChildren().get(available.get(position));
 			available.remove(position);
 			
-			Item item = randomLogic.randomItem(this.speed, block.getIndex(), this.fever);
+			Item item = RandomLogic.randomItem(this.speed, block.getIndex(), this.fever);
 			try {
 				if (item instanceof Bomb || item instanceof FeverStar) {
 					block.setCurrentItemWithTimer(item, 3000);
@@ -308,16 +301,16 @@ public class GameController {
 			Block block = (Block) node;
 			if (!block.isEmpty()) {
 				if (block.getCurrentItem() instanceof Enemy) {
-					this.scoreLogic.addScore(100);
+					ScoreLogic.addScore(100);
 				}
 				block.clearNode();
 				available.add(block.getIndex());
 			}
 		}
-		Main.scorePane.label.setText(Integer.toString(this.scoreLogic.getScore()));
+		Main.scorePane.label.setText(Integer.toString(ScoreLogic.getScore()));
 	}
 	public void startFever() {
-		this.scoreLogic.setScoreMultiplier(3);
+		ScoreLogic.setScoreMultiplier(3);
 		this.fever = true;
 		this.feverEffects.drawImage(new Image(Resources.FEVER), 0, 0, Constants.WIDTH, Constants.HEIGHT);
 		
@@ -327,7 +320,7 @@ public class GameController {
 		Thread t = new Thread(() -> {
 			try {
 				Thread.sleep(10000);
-				this.scoreLogic.setScoreMultiplier(1);
+				ScoreLogic.setScoreMultiplier(1);
 				this.fever = false;
 				this.feverEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 			} catch (Exception e) {
@@ -356,7 +349,7 @@ public class GameController {
 				if (!block.isEmpty()) {
 					block.clearNode();
 					if (block.getCurrentItem() instanceof Enemy) {
-						this.scoreLogic.addScore(100);
+						ScoreLogic.addScore(100);
 					} else {
 						if (block.hasRunningTimer()) {
 							block.stopTimer();
