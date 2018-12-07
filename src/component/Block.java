@@ -4,6 +4,7 @@ import application.Constants;
 import item.Item;
 import javafx.application.Platform;
 import javafx.scene.layout.StackPane;
+import logic.FillOccupiedBlockException;
 
 public class Block extends StackPane {
 	
@@ -19,13 +20,15 @@ public class Block extends StackPane {
 //		setStyle("-fx-background-color: #ddd; -fx-opacity: 0.5;");
 	}
 	
-	public void setCurrentItem(Item i) {
+	public void setCurrentItem(Item i) throws FillOccupiedBlockException {
+		if (!this.isEmpty()) throw new FillOccupiedBlockException();
 		this.currentItem = i;
 		this.clearNode();
 		Main.blockPane.drawGC(index, currentItem.getImage());
 		this.getChildren().add(i);
 	}
-	public void setCurrentItemWithTimer(Item i, int duration) {
+	public void setCurrentItemWithTimer(Item i, int duration) throws FillOccupiedBlockException {
+		if (!this.isEmpty()) throw new FillOccupiedBlockException();
 		setCurrentItem(i);
 		this.thread = new Thread(() -> {
 			try {

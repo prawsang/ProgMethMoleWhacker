@@ -264,10 +264,14 @@ public class GameController {
 				case 4: item = new Dynamite(block.getIndex()); break;
 				default: item = new NormalEnemy();
 			}
-			if (randomItem == 2 || randomItem == 3) {
-				block.setCurrentItemWithTimer(item, 3000);
-			} else {
-				block.setCurrentItem(item);
+			try {
+				if (item instanceof Bomb || item instanceof FeverStar) {
+					block.setCurrentItemWithTimer(item, 3000);
+				} else {
+					block.setCurrentItem(item);
+				}
+			} catch (FillOccupiedBlockException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -378,28 +382,6 @@ public class GameController {
 			}
 		});
 		t.start();
-	}
-	
-	
-	// Debug
-	private void printAvailable() {
-		int[] a = {1,1,1,1,1,1,1,1,1,1,1,1};
-		for (int i : available) {
-			a[i] = 0;
-		}
-		for (int j = 0; j < a.length; j++) {
-			System.out.print(a[j]);
-			if ((j+1) % 3 == 0 ) System.out.println("");
-		}
-		System.out.println("========");
-	}
-	private void colorAvailable() {
-		for (Node n : Main.blockPane.getTiles().getChildren()) {
-			n.setStyle("-fx-background: none");
-		}
-		for (int i : available) {
-			Main.blockPane.getChildren().get(i).setStyle("-fx-background-color: #888");
-		}
 	}
 }
 
