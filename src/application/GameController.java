@@ -28,7 +28,6 @@ public class GameController {
 	private boolean running = false;
 	private int speed;
 	private ArrayList<Integer> available;
-	private Thread randomThread;
 	
 	// Effects
 	private GraphicsContext bombEffects;
@@ -85,7 +84,6 @@ public class GameController {
 		public void handle(KeyEvent e) {
 			// Bomb
 			if (e.getCode().equals(KeyCode.ENTER)){
-				if (streak) return;
 				if (bombs > 0) {
 					bomb.usePowerUp();
 					Main.bombPane.drawBombPane(getBombs());
@@ -163,6 +161,12 @@ public class GameController {
 					}
 				} else {
 					PowerUp p = (PowerUp) item;
+					if (item instanceof Streak) {
+						if (streak) return;
+					}
+					if (item instanceof FeverStar) {
+						if (fever) return;
+					}
 					p.usePowerUp();
 				}
 				if (block.hasRunningTimer()) {
@@ -175,28 +179,6 @@ public class GameController {
 	}
 	
 	// Main game loop
-	public void startRandomThread() {
-		randomThread = new Thread(() ->  {
-			while(true) {
-				try {
-					Thread.sleep(this.speed);
-					if (this.streak) break;
-					Platform.runLater(() -> {
-						this.randomGame();
-					});
-					if (!this.running) break;
-					if (available.size() == 0) {
-						Platform.runLater(() -> {
-							gameOver();
-						});
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}	
-			}
-		});
-		randomThread.start();
-	}
 	public void startGameLoop() {
 		this.running = true;
 		// Increases Speed
@@ -216,7 +198,25 @@ public class GameController {
 		speedThread.start();
 		
 		// Random
-		startRandomThread();
+		Thread randomThread = new Thread(() ->  {
+			while(true) {
+				try {
+					Thread.sleep(this.speed);
+					Platform.runLater(() -> {
+						this.randomGame();
+					});
+					if (!this.running) break;
+					if (available.size() == 0) {
+						Platform.runLater(() -> {
+							gameOver();
+						});
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}	
+			}
+		});
+		randomThread.start();
 		
 		// BGM
 		bgm.setOnEndOfMedia(new Runnable() {
@@ -390,7 +390,6 @@ public class GameController {
 	// Streak
 	public void startStreak() {
 		streak = true;
-		randomThread.interrupt();
 		Main.showStreakScreen();
 		collectItem.play();
 		
@@ -400,7 +399,6 @@ public class GameController {
 				Platform.runLater(() -> {	
 					Main.scorePane.setScoreLabelText(ScoreLogic.addScore(Main.streakScreen.getCount() * 100));
 					Main.hideStreakScreen();
-					startRandomThread();
 					streak = false;
 				});
 			} catch (InterruptedException e) {

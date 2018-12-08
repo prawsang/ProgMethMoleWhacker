@@ -10,16 +10,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="application.GameController" project="ProgMethMoleWhacker" 
-    file="/ProgMethMoleWhacker/src/application/GameController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="579" width="324" x="281" y="-176"/>    
-    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" name="application.GameController.KeyEventHandler" project="ProgMethMoleWhacker" 
+  <class id="2" language="java" name="application.GameController.KeyEventHandler" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/application/GameController.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="119" y="337"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -28,7 +19,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="application.GameController.BlockEventHandler" project="ProgMethMoleWhacker" 
+  <class id="3" language="java" name="application.GameController.BlockEventHandler" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/application/GameController.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="100" y="474"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -37,25 +28,25 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="component.Block" project="ProgMethMoleWhacker" 
+  <class id="4" language="java" name="component.Block" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/component/Block.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="753" y="-26"/>    
+    <position height="-1" width="-1" x="722" y="-26"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="component.BlockPane" project="ProgMethMoleWhacker" 
+  <class id="5" language="java" name="component.BlockPane" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/component/BlockPane.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="968" y="-49"/>    
+    <position height="-1" width="-1" x="949" y="-33"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="logic.ScoreLogic" project="ProgMethMoleWhacker" 
+  <class id="6" language="java" name="logic.ScoreLogic" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/logic/ScoreLogic.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="568" y="525"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -64,7 +55,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="item.Item" project="ProgMethMoleWhacker" 
+  <class id="7" language="java" name="item.Item" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/Item.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="372" y="694"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -73,7 +64,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="item.Bomb" project="ProgMethMoleWhacker" 
+  <class id="8" language="java" name="item.Bomb" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/Bomb.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="863" y="1045"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -82,7 +73,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="10" language="java" name="item.Collectible" project="ProgMethMoleWhacker" 
+  <interface id="9" language="java" name="item.Collectible" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/Collectible.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="910" y="920"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -91,7 +82,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="11" language="java" name="item.Enemy" project="ProgMethMoleWhacker" 
+  <class id="10" language="java" name="item.Enemy" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/Enemy.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="156" y="890"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -100,7 +91,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="item.PowerUp" project="ProgMethMoleWhacker" 
+  <class id="11" language="java" name="item.PowerUp" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/PowerUp.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="672" y="875"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -109,7 +100,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="item.NormalEnemy" project="ProgMethMoleWhacker" 
+  <class id="12" language="java" name="item.NormalEnemy" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/NormalEnemy.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="257" y="1061"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -118,7 +109,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="item.StrongEnemy" project="ProgMethMoleWhacker" 
+  <class id="13" language="java" name="item.StrongEnemy" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/StrongEnemy.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="89" y="1060"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -127,7 +118,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="view.GameOver" project="ProgMethMoleWhacker" 
+  <class id="14" language="java" name="view.GameOver" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/view/GameOver.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1173" y="980"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -136,7 +127,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="component.CustomButton" project="ProgMethMoleWhacker" 
+  <class id="15" language="java" name="component.CustomButton" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/component/CustomButton.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1352" y="856"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -145,7 +136,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="logic.RandomLogic" project="ProgMethMoleWhacker" 
+  <class id="16" language="java" name="logic.RandomLogic" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/logic/RandomLogic.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="344" y="514"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -154,25 +145,25 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="component.BombPane" project="ProgMethMoleWhacker" 
+  <class id="17" language="java" name="component.BombPane" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/component/BombPane.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="720" y="189"/>    
+    <position height="-1" width="-1" x="645" y="193"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="component.ScorePane" project="ProgMethMoleWhacker" 
+  <class id="18" language="java" name="component.ScorePane" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/component/ScorePane.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1055" y="179"/>    
+    <position height="-1" width="-1" x="1036" y="192"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="20" language="java" name="application.Resources" project="ProgMethMoleWhacker" 
+  <class id="19" language="java" name="application.Resources" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/application/Resources.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1266" y="96"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -181,7 +172,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="21" language="java" name="application.Constants" project="ProgMethMoleWhacker" 
+  <class id="20" language="java" name="application.Constants" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/application/Constants.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1267" y="479"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -190,7 +181,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="22" language="java" name="view.SplashScreen.Title" project="ProgMethMoleWhacker" 
+  <class id="21" language="java" name="view.SplashScreen.Title" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/view/SplashScreen.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1025" y="783"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -199,7 +190,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="view.SplashScreen" project="ProgMethMoleWhacker" 
+  <class id="22" language="java" name="view.SplashScreen" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/view/SplashScreen.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1175" y="762"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -208,16 +199,16 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="24" language="java" name="component.HighScoreLabel" project="ProgMethMoleWhacker" 
+  <class id="23" language="java" name="component.HighScoreLabel" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/component/HighScoreLabel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="896" y="189"/>    
+    <position height="-1" width="-1" x="821" y="189"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="25" language="java" name="item.FeverStar" project="ProgMethMoleWhacker" 
+  <class id="24" language="java" name="item.FeverStar" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/FeverStar.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="581" y="1052"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -226,7 +217,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="item.Dynamite" project="ProgMethMoleWhacker" 
+  <class id="25" language="java" name="item.Dynamite" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/Dynamite.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="722" y="1054"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -235,7 +226,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="27" language="java" name="logic.FillOccupiedBlockException" project="ProgMethMoleWhacker" 
+  <class id="26" language="java" name="logic.FillOccupiedBlockException" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/logic/FillOccupiedBlockException.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="809" y="549"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -244,7 +235,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="28" language="java" name="item.Streak" project="ProgMethMoleWhacker" 
+  <class id="27" language="java" name="item.Streak" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/item/Streak.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="442" y="1052"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -253,7 +244,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="29" language="java" name="view.StreakScreen" project="ProgMethMoleWhacker" 
+  <class id="28" language="java" name="view.StreakScreen" project="ProgMethMoleWhacker" 
     file="/ProgMethMoleWhacker/src/view/StreakScreen.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="736" y="362"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -262,54 +253,63 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <nesting id="30">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </nesting>  
-  <nesting id="31">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="4"/>  
-  </nesting>  
-  <realization id="32">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="10"/>  
+  <class id="29" language="java" name="application.GameController" project="ProgMethMoleWhacker" 
+    file="/ProgMethMoleWhacker/src/application/GameController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="429" y="83"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="30">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="9"/>  
   </realization>  
+  <generalization id="31">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="10"/>  
+  </generalization>  
+  <generalization id="32">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
   <generalization id="33">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="8"/>  
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="11"/>  
   </generalization>  
   <generalization id="34">    
-    <end type="SOURCE" refId="14"/>    
+    <end type="SOURCE" refId="8"/>    
     <end type="TARGET" refId="11"/>  
   </generalization>  
-  <generalization id="35">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="12"/>  
-  </generalization>  
+  <nesting id="35">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
   <generalization id="36">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="12"/>  
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="7"/>  
   </generalization>  
-  <generalization id="37">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="11"/>  
-  </generalization>  
-  <generalization id="38">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
+  <nesting id="37">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="21"/>  
+  </nesting>  
+  <nesting id="38">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
   <generalization id="39">    
-    <end type="SOURCE" refId="26"/>    
-    <end type="TARGET" refId="12"/>  
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="10"/>  
   </generalization>  
   <generalization id="40">    
-    <end type="SOURCE" refId="28"/>    
-    <end type="TARGET" refId="12"/>  
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="7"/>  
   </generalization>  
-  <nesting id="41">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="22"/>  
-  </nesting>  
+  <generalization id="41">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

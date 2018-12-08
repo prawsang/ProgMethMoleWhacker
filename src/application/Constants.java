@@ -15,6 +15,6 @@ public class Constants {
 	
 	// Speed
 	public final static int MAX_INTERVAL = 1000;
-	public final static int MIN_INTERVAL = 500;
+	public final static int MIN_INTERVAL = 400;
 	public final static int INTERVAL_STEP = 100;
 }

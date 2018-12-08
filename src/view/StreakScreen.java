@@ -22,6 +22,7 @@ public class StreakScreen extends VBox {
 		countLabel.setStyle(style(40));
 		countLabel.setTextFill(Color.WHITE);
 		
+		setMouseTransparent(true);
 		getChildren().addAll(label, countLabel);
 	}
 	
