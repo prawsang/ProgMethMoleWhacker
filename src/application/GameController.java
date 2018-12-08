@@ -17,6 +17,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
+
 import logic.*;
 
 public class GameController {
@@ -37,10 +41,8 @@ public class GameController {
 	private boolean fever;
 	
 	// BGM
-	private Thread bgSoundThread;
-	private AudioClip bgm;
+	private MediaPlayer bgm = new MediaPlayer(new Media(Resources.SONG));
 	private AudioClip useBombSound;
-	private AudioClip getHitSound;
 	
 	public GameController() {
 		this.bombEffects = Main.bombEffects.getGraphicsContext2D();
@@ -55,9 +57,7 @@ public class GameController {
 		available = new ArrayList<Integer>();
 		
 		//Sound
-		bgm = new AudioClip(Resources.SONG);
 		useBombSound = new AudioClip(Resources.BOMBSOUND);
-		getHitSound = new AudioClip(Resources.GETHIT);
 		
 		// Add blocks to block pane
 		for (int i = 0; i < 12; i++) {
@@ -123,9 +123,6 @@ public class GameController {
 					Main.scorePane.label.setText(Integer.toString(ScoreLogic.addScore(100)));
 					block.clearNode();
 					available.add(block.getIndex());
-					
-					// Die sound
-					getHitSound.play();
 				}
 				// Hit sound
 				AudioClip hitSound = new AudioClip(Resources.HITSOUND);
@@ -202,23 +199,20 @@ public class GameController {
 						});
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 				}	
 			}
 		});
 		t.start();
 		
 		// BGM
-		bgSoundThread = new Thread(() -> {
-				try {
-					while(true) {
-						bgm.play();
-						Thread.sleep(480000);
-					}
-				} catch (InterruptedException e){
-					bgm.stop();
-				}
+		bgm.setOnEndOfMedia(new Runnable() {
+			public void run() {
+				bgm.seek(Duration.ZERO);
+		    }
 		});
-		bgSoundThread.start();
+		bgm.play();
+		
 	}
 	
 	// Reset Values
@@ -237,7 +231,8 @@ public class GameController {
 	private void gameOver() {
 		this.running = false;
 		this.fever = false;
-		bgSoundThread.interrupt();
+		bgm.seek(Duration.ZERO);
+		bgm.stop();
 		Main.showGameOver(ScoreLogic.getScore());
 		try {
 			HighScoreLogic.writeHighScore(ScoreLogic.getScore());
