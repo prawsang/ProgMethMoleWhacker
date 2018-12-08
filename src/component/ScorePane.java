@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 
 public class ScorePane extends StackPane {
 	
-	public Label label;
+	private Label label;
 	
 	public ScorePane(String text) {
 		Image scoreBG = new Image(Resources.SCORE);
@@ -27,5 +27,9 @@ public class ScorePane extends StackPane {
 		label.setTextFill(Color.web("white"));
 		label.setStyle("-fx-font-family: 'Titan One', cursive; -fx-font-size: 30px");
 		getChildren().add(label);
+	}
+	
+	public void setScoreLabelText(int score) {
+		label.setText(Integer.toString(score));
 	}
 }

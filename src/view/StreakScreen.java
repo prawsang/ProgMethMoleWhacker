@@ -5,12 +5,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class StreakView extends VBox {
+public class StreakScreen extends VBox {
 	
 	private Label countLabel;
 	private int count = 0;
 	
-	public StreakView() {
+	public StreakScreen() {
 		setSpacing(15);
 		setAlignment(Pos.CENTER);
 		

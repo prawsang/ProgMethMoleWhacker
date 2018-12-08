@@ -28,6 +28,6 @@ public class Resources {
 	public static final String SONG = ClassLoader.getSystemResource("audio/song.m4a").toString();
 	public static final String BOMB_SOUND = ClassLoader.getSystemResource("audio/bombSound.m4a").toString();
 	public static final String DIE = ClassLoader.getSystemResource("audio/getHit.m4a").toString();
-	public static final String COLLECT_BOMB = ClassLoader.getSystemResource("audio/collectBomb.m4a").toString();
+	public static final String COLLECT = ClassLoader.getSystemResource("audio/collectBomb.m4a").toString();
 	public static final String HIT_SOUND = ClassLoader.getSystemResource("audio/hit.m4a").toString();
 }

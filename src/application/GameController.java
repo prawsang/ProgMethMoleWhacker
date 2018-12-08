@@ -46,7 +46,7 @@ public class GameController {
 	private AudioClip useBombSound = new AudioClip(Resources.BOMB_SOUND);
 	private AudioClip dieSound = new AudioClip(Resources.DIE);
 	private AudioClip hitSound = new AudioClip(Resources.HIT_SOUND);
-	private AudioClip collectItem  = new AudioClip(Resources.COLLECT_BOMB);
+	private AudioClip collectItem  = new AudioClip(Resources.COLLECT);
 	
 	public GameController() {
 		this.bombEffects = Main.bombEffects.getGraphicsContext2D();
@@ -106,7 +106,7 @@ public class GameController {
 			// Streak
 			if (streak) {
 				if (e.getCode().equals(KeyCode.SPACE)){
-					Main.streakView.addCount();
+					Main.streakScreen.addCount();
 				}
 			}
 		}
@@ -129,8 +129,8 @@ public class GameController {
 				// Take damage
 				Enemy e = (Enemy) item;
 				if (!e.takeDamage() || fever) {
-					Main.scorePane.label.setText(Integer.toString(ScoreLogic.addScore(100)));
-					block.clearNode();
+					Main.scorePane.setScoreLabelText(ScoreLogic.addScore(100));
+					block.clearBlock();
 					available.add(block.getIndex());
 					// Die sound
 					dieSound.play();
@@ -168,7 +168,7 @@ public class GameController {
 				if (block.hasRunningTimer()) {
 					block.stopTimer();
 				}
-				block.clearNode();
+				block.clearBlock();
 				available.add(block.getIndex());
 			}
 		}
@@ -234,8 +234,9 @@ public class GameController {
 		this.bombEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 		this.feverEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 		this.speed = Constants.MAX_INTERVAL;
-		Main.scorePane.label.setText(Integer.toString(ScoreLogic.resetScore()));
+		Main.scorePane.setScoreLabelText(ScoreLogic.resetScore());
 		this.fever = false;
+		this.streak = false;
 		this.bombs = 0;
 		Main.bombPane.drawBombPane(0);
 	}
@@ -244,6 +245,7 @@ public class GameController {
 	private void gameOver() {
 		this.running = false;
 		this.fever = false;
+		this.streak = false;
 		bgm.seek(Duration.ZERO);
 		bgm.stop();
 		Main.showGameOver(ScoreLogic.getScore());
@@ -313,11 +315,11 @@ public class GameController {
 				if (block.getCurrentItem() instanceof Enemy) {
 					ScoreLogic.addScore(100);
 				}
-				block.clearNode();
+				block.clearBlock();
 				available.add(block.getIndex());
 			}
 		}
-		Main.scorePane.label.setText(Integer.toString(ScoreLogic.getScore()));
+		Main.scorePane.setScoreLabelText(ScoreLogic.getScore());
 	}
 	public void startFever() {
 		ScoreLogic.setScoreMultiplier(3);
@@ -356,7 +358,7 @@ public class GameController {
 			if (k >=0 && k<12) {
 				Block block =  (Block) Main.blockPane.getTiles().getChildren().get(k);
 				if (!block.isEmpty()) {
-					block.clearNode();
+					block.clearBlock();
 					if (block.getCurrentItem() instanceof Enemy) {
 						ScoreLogic.addScore(100);
 					} else {
@@ -389,15 +391,15 @@ public class GameController {
 	public void startStreak() {
 		streak = true;
 		randomThread.interrupt();
-		Main.showStreakView();
+		Main.showStreakScreen();
 		collectItem.play();
 		
 		Thread t = new Thread(() -> {
 			try {
 				Thread.sleep(5 * 1000);
 				Platform.runLater(() -> {	
-					Main.scorePane.label.setText(Integer.toString(ScoreLogic.addScore(Main.streakView.getCount() * 100)));
-					Main.hideStreakView();
+					Main.scorePane.setScoreLabelText(ScoreLogic.addScore(Main.streakScreen.getCount() * 100));
+					Main.hideStreakScreen();
 					startRandomThread();
 					streak = false;
 				});

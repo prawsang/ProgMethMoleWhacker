@@ -38,7 +38,7 @@ public class HighScoreLogic {
 		}
 	}
 	
-	public static void resetHighScore() throws IOException {
+	public static void resetHighScore() {
 		getFile();
 		
 		String fileContent = new String("0"); 

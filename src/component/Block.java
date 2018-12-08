@@ -22,7 +22,7 @@ public class Block extends StackPane {
 	public void setCurrentItem(Item i) throws FillOccupiedBlockException {
 		if (!this.isEmpty()) throw new FillOccupiedBlockException();
 		this.currentItem = i;
-		this.clearNode();
+		this.clearBlock();
 		Main.blockPane.drawGC(index, currentItem.getImage());
 		this.getChildren().add(i);
 	}
@@ -33,7 +33,7 @@ public class Block extends StackPane {
 			try {
 				Thread.sleep(duration);
 				Platform.runLater(()->{
-					this.clearNode();
+					this.clearBlock();
 					Main.gameController.addAvailable(this.index);
 				});
 			} catch (Exception e) {
@@ -55,7 +55,7 @@ public class Block extends StackPane {
 		return this.getChildren().size() == 0;
 	}
 	
-	public void clearNode() {
+	public void clearBlock() {
 		Main.blockPane.clearGC(index);
 		if (!isEmpty()) {
 			this.getChildren().remove(0);

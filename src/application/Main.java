@@ -4,7 +4,6 @@ import logic.HighScoreLogic;
 
 import view.*;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import component.BlockPane;
@@ -33,7 +32,7 @@ public class Main extends Application {
 	private static SplashScreen splashScreen;
 	private static StackPane root;
 	private static GameOver gameOver;
-	public static StreakView streakView;
+	public static StreakScreen streakScreen;
 	
 	// Components
 	public static BlockPane blockPane;
@@ -111,7 +110,7 @@ public class Main extends Application {
 		gameOver = new GameOver(0);
 		setUpGameOverEvents();
 		// Streak
-		streakView = new StreakView();
+		streakScreen = new StreakScreen();
 		
 		// Set Up Game Controller
 		gameController = new GameController();
@@ -142,11 +141,7 @@ public class Main extends Application {
 			
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK){
-				try {
-					HighScoreLogic.resetHighScore();
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
+				HighScoreLogic.resetHighScore();
 				highScoreLabel.setHighScoreText(HighScoreLogic.getHighScore());
 				alert.close();
 			} else {
@@ -179,12 +174,12 @@ public class Main extends Application {
 	}
 	
 	// Streak
-	public static void showStreakView() {
-		root.getChildren().add(streakView);
+	public static void showStreakScreen() {
+		root.getChildren().add(streakScreen);
 	}
-	public static void hideStreakView() {
-		streakView.reset();
-		root.getChildren().remove(streakView);
+	public static void hideStreakScreen() {
+		streakScreen.reset();
+		root.getChildren().remove(streakScreen);
 	}
 	
 	public static void main(String [] args) {
