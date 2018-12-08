@@ -19,11 +19,11 @@ public class BlockPane extends StackPane {
 		tiles.setPrefRows(4);
 		tiles.setPrefColumns(3);
 		tiles.setTileAlignment(Pos.CENTER);
-		tiles.setHgap(Constants.BLOCKSPACING);
-		tiles.setVgap(Constants.BLOCKSPACING);
+		tiles.setHgap(Constants.BLOCK_SPACING);
+		tiles.setVgap(Constants.BLOCK_SPACING);
 		tiles.setPadding(new Insets(100,0,0,53));
 		
-		canvas = new Canvas(Constants.BLOCKSIZE*3 + Constants.BLOCKSPACING*2, Constants.BLOCKSIZE*4 + Constants.BLOCKSPACING*3);
+		canvas = new Canvas(Constants.BLOCK_SIZE*3 + Constants.BLOCK_SPACING*2, Constants.BLOCK_SIZE*4 + Constants.BLOCK_SPACING*3);
 		getChildren().addAll(canvas, tiles);
 	}
 	
@@ -36,19 +36,19 @@ public class BlockPane extends StackPane {
 	}
 	
 	public double getX(int index) {
-		return (index % 3) * (Constants.BLOCKSIZE+Constants.BLOCKSPACING);
+		return (index % 3) * (Constants.BLOCK_SIZE+Constants.BLOCK_SPACING);
 	}
 	public double getY(int index) {
-		return (Math.floor(index/3)) * (Constants.BLOCKSIZE+Constants.BLOCKSPACING);
+		return (Math.floor(index/3)) * (Constants.BLOCK_SIZE+Constants.BLOCK_SPACING);
 	}
 	
 	public void drawGC(int index, String imagePath) {
 		Image img = new Image(imagePath);
-		this.getGC().drawImage(img, getX(index), getY(index), Constants.BLOCKSIZE, Constants.BLOCKSIZE);
+		this.getGC().drawImage(img, getX(index), getY(index), Constants.BLOCK_SIZE, Constants.BLOCK_SIZE);
 	}
 	
 	public void clearGC(int index) {
-		this.getGC().clearRect(getX(index), getY(index), Constants.BLOCKSIZE, Constants.BLOCKSIZE);
+		this.getGC().clearRect(getX(index), getY(index), Constants.BLOCK_SIZE, Constants.BLOCK_SIZE);
 	}
 	
 	

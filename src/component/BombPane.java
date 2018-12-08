@@ -33,10 +33,10 @@ public class BombPane extends StackPane {
 	public void drawBombPane(int bombs) {
 		String imagePath;
 		switch (bombs) {
-			case 0: imagePath = Resources.BOMBS0; break;
-			case 1: imagePath = Resources.BOMBS1; break;
-			case 2: imagePath = Resources.BOMBS2; break;
-			case 3: imagePath = Resources.BOMBS3; break;
+			case 0: imagePath = Resources.BOMBS_0; break;
+			case 1: imagePath = Resources.BOMBS_1; break;
+			case 2: imagePath = Resources.BOMBS_2; break;
+			case 3: imagePath = Resources.BOMBS_3; break;
 			default: return;
 		}
 		Image img = new Image(imagePath);

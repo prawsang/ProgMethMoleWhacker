@@ -14,7 +14,7 @@ public class Dynamite extends PowerUp {
 	}
 	public void usePowerUp() {
 		Main.gameController.killAdjacentEnemies(this.blockIndex);
-		AudioClip useBombSound = new AudioClip(Resources.BOMBSOUND);
+		AudioClip useBombSound = new AudioClip(Resources.BOMB_SOUND);
 		useBombSound.play();
 	}
 }

@@ -4,7 +4,7 @@ import application.Resources;
 
 public class StrongEnemy extends Enemy {
 	public StrongEnemy() {
-		super(3, Resources.STRONGENEMY);
+		super(3, Resources.STRONG_ENEMY);
 	}
 	
 	public boolean takeDamage() {

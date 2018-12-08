@@ -43,9 +43,10 @@ public class GameController {
 	
 	// Sounds
 	private MediaPlayer bgm = new MediaPlayer(new Media(Resources.SONG));
-	private AudioClip useBombSound = new AudioClip(Resources.BOMBSOUND);;
-	private AudioClip hitSound = new AudioClip(Resources.HITSOUND);
-	private AudioClip collectItem  = new AudioClip(Resources.COLLECTBOMB);
+	private AudioClip useBombSound = new AudioClip(Resources.BOMB_SOUND);
+	private AudioClip dieSound = new AudioClip(Resources.DIE);
+	private AudioClip hitSound = new AudioClip(Resources.HIT_SOUND);
+	private AudioClip collectItem  = new AudioClip(Resources.COLLECT_BOMB);
 	
 	public GameController() {
 		this.bombEffects = Main.bombEffects.getGraphicsContext2D();
@@ -56,7 +57,7 @@ public class GameController {
 		this.bombs = 0;
 		this.fever = false;
 		
-		this.speed = Constants.MAXINTERVAL;
+		this.speed = Constants.MAX_INTERVAL;
 		available = new ArrayList<Integer>();
 		
 		// Add blocks to block pane
@@ -91,7 +92,7 @@ public class GameController {
 					
 					useBombSound.play();
 					
-					Image boom = new Image(Resources.BIGBOOM);
+					Image boom = new Image(Resources.BIG_BOOM);
 					bombEffects.drawImage(
 							boom, 
 							(Constants.WIDTH - boom.getWidth()/2)/2, 
@@ -131,6 +132,8 @@ public class GameController {
 					Main.scorePane.label.setText(Integer.toString(ScoreLogic.addScore(100)));
 					block.clearNode();
 					available.add(block.getIndex());
+					// Die sound
+					dieSound.play();
 				}
 				// Hit sound
 				hitSound.play();
@@ -201,10 +204,10 @@ public class GameController {
 			while(true) {
 				try {
 					Thread.sleep(10000);
-					if (this.speed > Constants.MININTERVAL) {
-						this.speed -= Constants.INTERVALSTEP;
+					if (this.speed > Constants.MIN_INTERVAL) {
+						this.speed -= Constants.INTERVAL_STEP;
 					}
-					if (this.speed == Constants.MININTERVAL) break;
+					if (this.speed == Constants.MIN_INTERVAL) break;
 					if (!this.running) break;
 				} catch (Exception e) {
 				}
@@ -230,7 +233,7 @@ public class GameController {
 		clearBoard();
 		this.bombEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
 		this.feverEffects.clearRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
-		this.speed = Constants.MAXINTERVAL;
+		this.speed = Constants.MAX_INTERVAL;
 		Main.scorePane.label.setText(Integer.toString(ScoreLogic.resetScore()));
 		this.fever = false;
 		this.bombs = 0;
@@ -277,7 +280,7 @@ public class GameController {
 	}
 	// Add/Remove available
 	public void addAvailable(int index) {
-		if (available.size() < Constants.MAXBLOCK) {
+		if (available.size() < Constants.MAX_BLOCK) {
 			available.add(index);
 		}
 	}
@@ -366,8 +369,8 @@ public class GameController {
 							new Image(Resources.BOOM), 
 							Main.blockPane.getX(k) + 53, 
 							Main.blockPane.getY(k) + 110, 
-							Constants.BLOCKSIZE, 
-							Constants.BLOCKSIZE
+							Constants.BLOCK_SIZE, 
+							Constants.BLOCK_SIZE
 						);
 				}
 			}
@@ -376,8 +379,8 @@ public class GameController {
 				new Image(Resources.BOOM), 
 				Main.blockPane.getX(position) + 53, 
 				Main.blockPane.getY(position) + 110, 
-				Constants.BLOCKSIZE, 
-				Constants.BLOCKSIZE
+				Constants.BLOCK_SIZE, 
+				Constants.BLOCK_SIZE
 			);
 		startEffectsTimer();
 	}

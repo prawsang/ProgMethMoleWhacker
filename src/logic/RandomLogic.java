@@ -17,13 +17,13 @@ public class RandomLogic {
 		int itemsAtOnce = 1;
 		int random = randomProb[new Random().nextInt(randomProb.length)];
 		
-		if (speed < Constants.MAXINTERVAL) {
+		if (speed < Constants.MAX_INTERVAL) {
 			if (random <= 5) {
 				itemsAtOnce = 1;
 			} else {
 				itemsAtOnce = 2;
 			}
-		} else if (speed < Constants.MAXINTERVAL - Constants.INTERVALSTEP*4) {
+		} else if (speed < Constants.MAX_INTERVAL - Constants.INTERVAL_STEP*4) {
 			if (random <= 4) {
 				itemsAtOnce = 1;
 			} else if (random >= 7) {
@@ -37,7 +37,7 @@ public class RandomLogic {
 	
 	public static Item randomItem(int speed, int position, boolean fever) {
 		int random = randomProb[new Random().nextInt(randomProb.length)];
-		if (speed >= Constants.MAXINTERVAL - Constants.INTERVALSTEP*2) {
+		if (speed >= Constants.MAX_INTERVAL - Constants.INTERVAL_STEP*2) {
 			return new NormalEnemy();
 		} else {		
 			if (random <= 6) {

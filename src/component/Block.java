@@ -15,8 +15,8 @@ public class Block extends StackPane {
 	public Block(int index) {
 		this.index = index;
 		
-		setPrefWidth(Constants.BLOCKSIZE);
-		setPrefHeight(Constants.BLOCKSIZE);
+		setPrefWidth(Constants.BLOCK_SIZE);
+		setPrefHeight(Constants.BLOCK_SIZE);
 	}
 	
 	public void setCurrentItem(Item i) throws FillOccupiedBlockException {
