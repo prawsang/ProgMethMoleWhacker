@@ -1,8 +1,8 @@
 package application;
 import javafx.stage.Stage;
 import logic.HighScoreLogic;
-import view.GameOver;
-import view.SplashScreen;
+
+import view.*;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -33,6 +33,7 @@ public class Main extends Application {
 	private static SplashScreen splashScreen;
 	private static StackPane root;
 	private static GameOver gameOver;
+	public static StreakView streakView;
 	
 	// Components
 	public static BlockPane blockPane;
@@ -106,10 +107,11 @@ public class Main extends Application {
 		splashScreen = new SplashScreen();
 		root.getChildren().add(splashScreen);
 		setUpSplashScreenEvents();
-		
 		// Game Over
 		gameOver = new GameOver(0);
 		setUpGameOverEvents();
+		// Streak
+		streakView = new StreakView();
 		
 		// Set Up Game Controller
 		gameController = new GameController();
@@ -171,9 +173,18 @@ public class Main extends Application {
 		});
 	}
 	
-	public static void showGameOver( int score ) {
+	public static void showGameOver(int score) {
 		gameOver.setScore(score);
 		root.getChildren().add(gameOver);
+	}
+	
+	// Streak
+	public static void showStreakView() {
+		root.getChildren().add(streakView);
+	}
+	public static void hideStreakView() {
+		streakView.reset();
+		root.getChildren().remove(streakView);
 	}
 	
 	public static void main(String [] args) {

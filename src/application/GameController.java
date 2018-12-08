@@ -28,6 +28,7 @@ public class GameController {
 	private boolean running = false;
 	private int speed;
 	private ArrayList<Integer> available;
+	private Thread randomThread;
 	
 	// Effects
 	private GraphicsContext bombEffects;
@@ -38,6 +39,7 @@ public class GameController {
 	private int bombs;
 	private static Bomb bomb;
 	private boolean fever;
+	private boolean streak;
 	
 	// Sounds
 	private MediaPlayer bgm = new MediaPlayer(new Media(Resources.SONG));
@@ -75,12 +77,14 @@ public class GameController {
 	
 	// Press enter to use bomb (if available)
 	public void setUpEnterEventHandler(Scene scene) {
-		scene.setOnKeyReleased(new EnterEventHandler());
+		scene.setOnKeyReleased(new KeyEventHandler());
 	}
 	
-	private class EnterEventHandler implements EventHandler<KeyEvent>{
+	private class KeyEventHandler implements EventHandler<KeyEvent>{
 		public void handle(KeyEvent e) {
+			// Bomb
 			if (e.getCode().equals(KeyCode.ENTER)){
+				if (streak) return;
 				if (bombs > 0) {
 					bomb.usePowerUp();
 					Main.bombPane.drawBombPane(getBombs());
@@ -96,6 +100,12 @@ public class GameController {
 							boom.getHeight()/2
 						);
 					startEffectsTimer();
+				}
+			}
+			// Streak
+			if (streak) {
+				if (e.getCode().equals(KeyCode.SPACE)){
+					Main.streakView.addCount();
 				}
 			}
 		}
@@ -162,6 +172,28 @@ public class GameController {
 	}
 	
 	// Main game loop
+	public void startRandomThread() {
+		randomThread = new Thread(() ->  {
+			while(true) {
+				try {
+					Thread.sleep(this.speed);
+					if (this.streak) break;
+					Platform.runLater(() -> {
+						this.randomGame();
+					});
+					if (!this.running) break;
+					if (available.size() == 0) {
+						Platform.runLater(() -> {
+							gameOver();
+						});
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}	
+			}
+		});
+		randomThread.start();
+	}
 	public void startGameLoop() {
 		this.running = true;
 		// Increases Speed
@@ -181,25 +213,7 @@ public class GameController {
 		speedThread.start();
 		
 		// Random
-		Thread t = new Thread(() ->  {
-			while(true) {
-				try {
-					Thread.sleep(this.speed);
-					Platform.runLater(() -> {
-						this.randomGame();
-					});
-					if (!this.running) break;
-					if (available.size() == 0) {
-						Platform.runLater(() -> {
-							gameOver();
-						});
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}	
-			}
-		});
-		t.start();
+		startRandomThread();
 		
 		// BGM
 		bgm.setOnEndOfMedia(new Runnable() {
@@ -252,7 +266,7 @@ public class GameController {
 			
 			Item item = RandomLogic.randomItem(this.speed, block.getIndex(), this.fever);
 			try {
-				if (item instanceof Bomb || item instanceof FeverStar) {
+				if (!(item instanceof Dynamite) && item instanceof PowerUp) {
 					block.setCurrentItemWithTimer(item, 3000);
 				} else {
 					block.setCurrentItem(item);
@@ -366,6 +380,28 @@ public class GameController {
 				Constants.BLOCKSIZE
 			);
 		startEffectsTimer();
+	}
+	
+	// Streak
+	public void startStreak() {
+		streak = true;
+		randomThread.interrupt();
+		Main.showStreakView();
+		collectItem.play();
+		
+		Thread t = new Thread(() -> {
+			try {
+				Thread.sleep(5 * 1000);
+				Platform.runLater(() -> {	
+					Main.scorePane.label.setText(Integer.toString(ScoreLogic.addScore(Main.streakView.getCount() * 100)));
+					Main.hideStreakView();
+					startRandomThread();
+					streak = false;
+				});
+			} catch (InterruptedException e) {
+			}
+		});
+		t.start();
 	}
 
 	// Bomb Effects

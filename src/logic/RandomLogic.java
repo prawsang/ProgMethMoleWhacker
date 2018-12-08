@@ -44,17 +44,20 @@ public class RandomLogic {
 				return new NormalEnemy();
 			} else {
 				int item = randomProb[new Random().nextInt(randomProb.length)];
-				if (item <= 5) {
+				if (item <= 4) {
 					return new StrongEnemy();
 				}
-				else if (item == 6) {
+				else if (item == 5) {
 					return new Bomb();
 				}
-				else if (item == 7 && !fever) {
+				else if (item == 6 && !fever) {
 					return new FeverStar();
 				}
-				else {
+				else if (item == 7) {
 					return new Dynamite(position);
+				}
+				else {
+					return new Streak();
 				}
 			}
 		}
