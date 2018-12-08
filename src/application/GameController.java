@@ -1,6 +1,5 @@
 package application;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import component.Block;
@@ -40,9 +39,11 @@ public class GameController {
 	private static Bomb bomb;
 	private boolean fever;
 	
-	// BGM
+	// Sounds
 	private MediaPlayer bgm = new MediaPlayer(new Media(Resources.SONG));
-	private AudioClip useBombSound;
+	private AudioClip useBombSound = new AudioClip(Resources.BOMBSOUND);;
+	private AudioClip hitSound = new AudioClip(Resources.HITSOUND);
+	private AudioClip collectItem  = new AudioClip(Resources.COLLECTBOMB);
 	
 	public GameController() {
 		this.bombEffects = Main.bombEffects.getGraphicsContext2D();
@@ -55,9 +56,6 @@ public class GameController {
 		
 		this.speed = Constants.MAXINTERVAL;
 		available = new ArrayList<Integer>();
-		
-		//Sound
-		useBombSound = new AudioClip(Resources.BOMBSOUND);
 		
 		// Add blocks to block pane
 		for (int i = 0; i < 12; i++) {
@@ -125,7 +123,6 @@ public class GameController {
 					available.add(block.getIndex());
 				}
 				// Hit sound
-				AudioClip hitSound = new AudioClip(Resources.HITSOUND);
 				hitSound.play();
 				
 				// Hit effects
@@ -142,7 +139,6 @@ public class GameController {
 				// Collect or use power up
 				if (item instanceof Collectible) {
 					Collectible c = (Collectible) item;
-					AudioClip collectItem  = new AudioClip(Resources.COLLECTBOMB);
 					collectItem.play();
 					if (item instanceof Bomb) {
 						if (getBombs() < 3) {
@@ -234,11 +230,7 @@ public class GameController {
 		bgm.seek(Duration.ZERO);
 		bgm.stop();
 		Main.showGameOver(ScoreLogic.getScore());
-		try {
-			HighScoreLogic.writeHighScore(ScoreLogic.getScore());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		HighScoreLogic.writeHighScore(ScoreLogic.getScore());
 		Main.highScoreLabel.setHighScoreText(HighScoreLogic.getHighScore());
 	}
 	
@@ -315,7 +307,6 @@ public class GameController {
 		this.fever = true;
 		this.feverEffects.drawImage(new Image(Resources.FEVER), 0, 0, Constants.WIDTH, Constants.HEIGHT);
 		
-		AudioClip collectItem  = new AudioClip(Resources.COLLECTBOMB);
 		collectItem.play();
 		
 		Thread t = new Thread(() -> {
@@ -376,7 +367,7 @@ public class GameController {
 			);
 		startEffectsTimer();
 	}
-	
+
 	// Bomb Effects
 	private void startEffectsTimer() {
 		Thread t = new Thread(()->  {
